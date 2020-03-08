@@ -1,0 +1,349 @@
+openapi: 3.0.0
+info:
+  description: Mock API for hlk-admin-system
+  version: 1.0.0
+  title: Mock API
+  contact:
+    email: wisdom.su@163.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: /mock-api/v1
+tags:
+  - name: articles
+    description: Articles data related api.
+  - name: roles
+    description: Roles related api.
+  - name: transactions
+    description: Transactions data related api.
+  - name: users
+    description: Users related api.
+paths:
+  /articles:
+    get:
+      tags:
+        - articles
+      summary: Get Article List
+      description: Return a list of articles.
+      operationId: getArticles
+      parameters:
+        - name: importance
+          in: query
+          description: Used to filter articles by importance.
+          schema:
+            $ref: '#/components/schemas/Article/properties/importance'
+        - name: title
+          in: query
+          description: Used to filter articles by matched title substring.
+          schema:
+            $ref: '#/components/schemas/Article/properties/title'
+        - name: type
+          in: query
+          description: Used to filter articles by type.
+          schema:
+            $ref: '#/components/schemas/Article/properties/type'
+        - name: page
+          in: query
+          description: The wanted page number (one page).
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+        - name: limit
+          in: query
+          description: The maximum number of articles returned for one page.
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+        - name: sort
+          in: query
+          description: Optional sorting order for articles.
+          schema:
+            type: string
+            enum:
+              - +id
+              - -id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        format: int32
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Article'
+    post:
+      tags:
+        - articles
+      summary: Create New Article
+      description: Create a new article.
+      operationId: createArticle
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - name: article
+          in: query
+          required: true
+          description: The data for new article.
+          schema:
+            $ref: '#/components/schemas/Article'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  data:
+                    type: object
+                    properties:
+                      article:
+                        $ref: '#/components/schemas/Article'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+  /articles/{id}:
+    get:
+      tags:
+        - articles
+      summary: Get Article Detail
+      description: Get article detail by ID.
+      operationId: getArticle
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Article id.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  data:
+                    type: object
+                    properties:
+                      article:
+                        $ref: '#/components/schemas/Article'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+    put:
+      tags:
+        - articles
+      summary: Update Article Detail
+      description: Update article deatail by ID.
+      operationId: updateArticle
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Article id.
+          schema:
+            type: integer
+            format: int64
+        - name: article
+          in: query
+          required: true
+          description: data for the updated article.
+          schema:
+            $ref: '#/components/schemas/Article'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                  data:
+                    type: object
+                    properties:
+                      article:
+                        $ref: '#/components/schemas/Article'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+    delete:
+      tags:
+        - articles
+      summary: Delete Article
+      description: Delete article by ID.
+      operationId: deleteArticle
+      security:
+        - AccessTokenAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Article id.
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    AccessTokenAuth:
+      type: apiKey
+      in: header
+      name: X-Access-Token
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    InvalidUser:
+      description: Invalid username supplied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        status:
+          type: string
+          enum:
+            - draft
+            - published
+            - deleted
+        title:
+          type: string
+          example: IG Won World Championship
+        abstractContent:
+          type: string
+          example: Invictus Gaming sweeps Fnatic 3-0 to win League of Legends World Championship
+        fullContent:
+          type: string
+          example: Article details goes here...
+        sourceURL:
+          type: string
+          format: url
+          example: http://www.espn.com/esports/story/_/id/25164094/invictus-gaming-sweeps-fnatic-3-0-win-league-legends-world-championship
+        imageURL:
+          type: string
+          format: url
+          example: https://a1.espncdn.com/combiner/i?img=%2Fphoto%2F2018%2F1103%2Fr458060_1296x729_16%2D9.jpg&w=920&h=518&scale=crop&cquality=80&location=origin&format=jpg
+        timestamp:
+          $ref: '#/components/schemas/Timestamp'
+        platforms:
+          type: array
+          items:
+            type: string
+            enum:
+              - a-platform
+              - b-platform
+              - c-platform
+          uniqueItems: true
+        disableComment:
+          type: boolean
+          example: false
+        importance:
+          type: integer
+          format: int32
+          enum:
+            - 1
+            - 2
+            - 3
+        author:
+          type: string
+          example: Chong Guo
+        reviewer:
+          type: string
+          example: Chong Guo
+        type:
+          type: string
+          enum:
+            - CN
+            - US
+            - JP
+            - EU
+        pageviews:
+          $ref: '#/components/schemas/Pageviews/properties/pageviews'
+      required:
+       - id
+       - status
+       - title
+       - timestamp
+       - importance
+       - author
+    Timestamp:
+      oneOf:
+      - type: integer
+        format: int32
+        example: 1559605283
+      - type: string
+        format: date-time
+        example: 2017-07-21T17:32:28Z
+    AnyValue: {}

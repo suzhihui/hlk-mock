@@ -1,0 +1,39 @@
+{
+  "name": "hlk-mock",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "nodemon ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github-szh:suzhihui/hlk-mock.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "4",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.15",
+    "morgan": "^1.9.1",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "@types/compression": "^1.7.0",
+    "@types/cors": "^2.8.6",
+    "@types/express": "^4.17.3",
+    "@types/faker": "^4.1.10",
+    "@types/lodash": "^4.14.149",
+    "@types/morgan": "^1.9.0",
+    "@types/node": "^13.9.0",
+    "@types/yamljs": "^0.2.30",
+    "compression": "^1.7.4",
+    "nodemon": "^2.0.2",
+    "swagger-routes-express": "^3.1.2",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.8.3"
+  }
+}
