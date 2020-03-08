@@ -36,14 +36,6 @@ for(let i = 0; i< 15; i++) {
   } = formatDays(d)
   dList.push(`${year}-${month}-${day}`)
 }
-const typs = faker.random.arrayElement([
-  'SERVICE',
-  'CONSUME',
-  'SERVICE_CYCLE',
-  'CONSUME_CYCLE',
-  'SMS',
-  'CALL',
-  'BIRTH',
-])
+const typs = faker.random.arrayElement(['SERVICE', 'CONSUME', 'SERVICE_CYCLE', 'CONSUME_CYCLE', 'SMS', 'CALL', 'BIRTH'])
 console.log(typeof typs)
 // console.log(dates, [...new Set(dList)])
