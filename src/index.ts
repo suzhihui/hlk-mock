@@ -9,7 +9,7 @@ import yaml from 'yamljs'
 import * as api from './api'
 import { accessTokenAuth } from './security'
 const app = express()
-const port = 8546
+const port = 9998
 const { connector, summarise } = require('swagger-routes-express')
 
 // Compression
