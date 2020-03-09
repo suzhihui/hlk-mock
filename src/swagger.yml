@@ -20,6 +20,62 @@ tags:
   - name: users
     description: Users related api.
 paths:
+  /members:
+    get:
+      tags:
+        - members
+      summary: Get Member List
+      description: Return a list of members.
+      operationId: getMembers
+      parameters:
+        - name: type
+          in: query
+          description: 动态类型
+        - name: page
+          in: query
+            description: 当前页
+            schema:
+              type: integer
+              format: int32
+              minimum: 1
+        - name: limit
+          in: query
+          description: 页码
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 50
+        - name: isSystole
+          in: query
+          description: 是否缩略
+          schema: 
+            type: boolean
+            example: false
+        - name: curDate
+          in: query
+          description: 当前日期
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: integer
+                  data:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        format: integer
+                      items:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Member'
   /articles:
     get:
       tags:
@@ -266,6 +322,12 @@ components:
       required:
         - code
         - message
+    Member:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
     Article:
       type: object
       properties:

@@ -57,5 +57,5 @@ export interface ICustomer{
   gender: string,
   avatar: string,
   no: string,
-  actionList: IMemberCoustomeAction[]
+  actionList: IMemberCoustomeAction[] | any
 }

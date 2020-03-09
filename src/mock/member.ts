@@ -26,7 +26,7 @@ for(let i = 0; i < memberCount; i++) {
 // }
 // todo (顾客动态列表) 根据日期显示数据
 
-export const getCustomeListByDate = (req: Request, res: Response)=> {
+export const getMembers = (req: Request, res: Response)=> {
   // params
   const {
     type, // 1=>日期; 2=>月
@@ -36,37 +36,12 @@ export const getCustomeListByDate = (req: Request, res: Response)=> {
     curDate = new Date().getTime(), // 当前日期时间戳
     sort,
   } = req.query
-  
-  memberList.forEach((item, i) => {
-    // item.actionList.push({
-    //   id: i,
-    //   merchant_id: i,
-    //   shop_id: i,
-    //   customer_id: i,
-    //   action_time: string | number,
-    //   is_pending: string,
-    //   type: string,
-    //   batch_serial: string,
-    //   remark: ICommonJson,
-    //   amount: number,
-    //   cash_amount: number,
-    //   noncash_amount: number,
-    //   ext: ICommonJson,
-    //   status: string,
-    //   action_status: string,
-    //   create_user: ICommonJson,
-    //   create_ts: string | number,
-    //   last_update_ts: string | number,
-    //   last_update_user: ICommonJson
-    // })
-  })
-  
   memberList.forEach((item, i) => {
     item.actionList = _renderData(type, isSystole, curDate)
   })
 
   const pageList =  memberList.filter((_, i) => i < limit * page && i >= limit * (page - 1))
-
+  // console.log(pageList)
   return res.json({
     code: 200,
     data: {
@@ -87,7 +62,7 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
     const sD = new Date(datePrvied)
     const eD = new Date(dateNext)
     const actionList:IMemberCoustomeAction[] = []
-    const dList = []
+    const dList = [] // 日期范围
     for(let i = 0; i< 15; i++) {
       let d = faker.date.between(sD, eD)
       const {
@@ -97,15 +72,16 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
       } = formatDays(d)
       dList.push(`${year}-${month}-${day}`)
     }
+    dList.sort()
     dList.forEach(item => {
       let ds = item.split('-')
-      let _id = ~~ds[0] + ~~ds[1] + ~ds[2]
+      let _id = ~~(ds[0] + _pendZroe(ds[1]) + _pendZroe(ds[2]))
       actionList.push({
         id: _id,
         merchant_id: _id,
         shop_id: _id,
         customer_id: _id,
-        action_time: faker.date.past(ds[0]).getTime(),
+        action_time: new Date(item).getTime(),
         is_pending: faker.random.boolean(),
         type: faker.random.arrayElement(['service', 'consume', 'service_cycle', 'consume_cycle', 'sms', 'call', 'birth']),
         batch_serial: faker.random.boolean(), // 循环事件唯一标识
@@ -123,7 +99,7 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
       })
     })
 
-    return dList
+    return actionList
   }
 
   // 月动态 一年数据（初次：当前月和前11个月；左右滑 前后半年（6个月）
@@ -137,4 +113,11 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
 
     }
   }
+}
+
+const _pendZroe = (sN:string):string => {
+  if(sN.length < 2) {
+    return sN.padStart(2, '0')
+  }
+  return sN
 }

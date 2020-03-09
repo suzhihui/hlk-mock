@@ -28,7 +28,7 @@ for (let i = 0; i < articleCount; i++) {
 
 export const getArticles = (req: Request, res: Response) => {
   const { importance, type, title, page = 1, limit = 20, sort } = req.query
-
+  console.log('type', type)
   let mockList = articleList.filter(item => {
     if (importance && item.importance !== +importance) return false
     if (type && item.type !== type) return false
