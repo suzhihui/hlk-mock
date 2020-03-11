@@ -40,5 +40,9 @@ const typs = faker.random.arrayElement(['SERVICE', 'CONSUME', 'SERVICE_CYCLE', '
 console.log(typeof typs)
 
 console.log(typeof '2'.padStart(0), '___', new Date('2020-3-3').getTime())
+
+for(let i = 12; i > 0; i--) {
+  console.log(i)
+}
 // console.log(dates, [...new Set(dList)])
 // '2'.padStart(0)
