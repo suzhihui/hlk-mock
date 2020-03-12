@@ -108,13 +108,22 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
 
   // 月动态 一年数据（初次：当前月和前11个月；左右滑 前后半年（6个月）
   if(type == 2) {
-    // 缩略模式
+    // 缩略模式 可由前端处理
     if(isSystole) {
       
     }
     // 展开
     else {
 
+    }
+    // 当前月
+    const curMonth = new Date(curDate).getMonth() + 1
+    // 11个月
+    for(let i = 12; i > 0; i--) {
+      // 下一年
+      if(curMonth - i == 0) {
+
+      }
     }
   }
 }
