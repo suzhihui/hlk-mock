@@ -55,55 +55,13 @@ export const getMembers = (req: Request, res: Response)=> {
 const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
   // 日期动态 一个月数据（初次：当前日期的前后15天数据; 左右滑加载 前后一个月）
   if(type == 1) {
-    // 当前日期
-    const today = new Date(curDate).getDate()
+    // const today = new Date(curDate).getDate()
     const dayTimes = 24*60*60*1000
     const datePrvied = curDate - 15 * dayTimes
     const dateNext = curDate + 15 * dayTimes
     const sD = new Date(datePrvied)
     const eD = new Date(dateNext)
-    const actionList:IMemberCoustomeAction[] = []
-    const dList = [] // 日期范围
-    for(let i = 0; i< 15; i++) {
-      let d = faker.date.between(sD, eD)
-      const {
-        year,
-        month,
-        day
-      } = formatDays(d)
-      dList.push(`${year}-${month}-${day}`)
-    }
-    dList.sort()
-    dList.forEach(item => {
-      let ds = item.split('-')
-      let _id = ~~(ds[0] + _pendZroe(ds[1]) + _pendZroe(ds[2]))
-      let _now = new Date(item).getTime()
-      let _history = _now < curDate // 是否过成为历史
-      actionList.push({
-        id: _id,
-        merchant_id: _id,
-        shop_id: _id,
-        customer_id: _id,
-        action_time: _now,
-        is_history: _history, 
-        is_pending: faker.random.boolean(),
-        type: faker.random.arrayElement(['service', 'consume', 'service_cycle', 'consume_cycle', 'sms', 'call', 'birth', 'remark']),
-        batch_serial: faker.random.boolean(), // 循环事件唯一标识
-        remark: null,
-        amount: faker.random.number(180),
-        cash_amount: faker.random.number(120),
-        noncash_amount: faker.random.number(240),
-        ext: null,
-        status: faker.random.arrayElement([2, 3]),
-        action_status: faker.random.arrayElement([2, 3]),
-        create_user: null,
-        create_ts: faker.date.past(ds[0]).getTime(),
-        last_update_ts: faker.date.past(ds[0]).getTime(),
-        last_update_user: null
-      })
-    })
-
-    return actionList
+    return _actionList(curDate, sD, eD, 15)
   }
 
   // 月动态 一年数据（初次：当前月和前11个月；左右滑 前后半年（6个月）
@@ -116,15 +74,24 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
     else {
 
     }
-    // 当前月
-    const curMonth = new Date(curDate).getMonth() + 1
+    // 当前月 mock month data
+    let _mon = new Date(curDate).getMonth()
+    let _year = new Date(curDate).getFullYear()
+    let _monList:string[] = []
     // 11个月
-    for(let i = 12; i > 0; i--) {
+    for(let i = 0; i < 12; i++) {
       // 下一年
-      if(curMonth - i == 0) {
-
+      if(_mon == 0) {
+        _mon = 12
+        _year--
       }
+      else {
+        _monList.push(`${_year}-${_mon}-28`)
+      }
+      _mon--
     }
+    console.log(_monList)
+    return _actionList(curDate, new Date(_monList[0]), new Date(_monList[_monList.length - 1]), 12 * faker.random.arrayElement([1, 6]))
   }
 }
 
@@ -133,4 +100,58 @@ const _pendZroe = (sN:string):string => {
     return sN.padStart(2, '0')
   }
   return sN
+}
+
+// mock 区间 事项
+/**
+ * @param {dateTimes} curDate 当前时间戳
+ * @param {date} sD 开始时间戳
+ * @param {date} eD 结束时间戳
+ * @param {number} items mock数据条数
+ */
+const _actionList = (curDate,sD, eD, items) => {
+  // 当前日期
+  
+  const actionList:IMemberCoustomeAction[] = []
+  const dList = [] // 日期范围
+  for(let i = 0; i< items; i++) {
+    let d = faker.date.between(sD, eD)
+    const {
+      year,
+      month,
+      day
+    } = formatDays(d)
+    dList.push(`${year}-${month}-${day}`)
+  }
+  dList.sort()
+  dList.forEach(item => {
+    let ds = item.split('-')
+    let _id = ~~(ds[0] + _pendZroe(ds[1]) + _pendZroe(ds[2]))
+    let _now = new Date(item).getTime()
+    let _history = _now < curDate // 是否过成为历史
+    actionList.push({
+      id: _id,
+      merchant_id: _id,
+      shop_id: _id,
+      customer_id: _id,
+      action_time: _now,
+      is_history: _history, 
+      is_pending: faker.random.boolean(),
+      type: faker.random.arrayElement(['service', 'consume', 'service_cycle', 'consume_cycle', 'sms', 'call', 'birth', 'remark']),
+      batch_serial: faker.random.boolean(), // 循环事件唯一标识
+      remark: null,
+      amount: faker.random.number(180),
+      cash_amount: faker.random.number(120),
+      noncash_amount: faker.random.number(240),
+      ext: null,
+      status: faker.random.arrayElement([2, 3]),
+      action_status: faker.random.arrayElement([2, 3]),
+      create_user: null,
+      create_ts: faker.date.past(ds[0]).getTime(),
+      last_update_ts: faker.date.past(ds[0]).getTime(),
+      last_update_user: null
+    })
+  })
+
+  return actionList
 }

@@ -41,8 +41,19 @@ console.log(typeof typs)
 
 console.log(typeof '2'.padStart(0), '___', new Date('2020-3-3').getTime())
 
-for(let i = 12; i > 0; i--) {
-  console.log(i)
+// 当前月
+let curMonth = new Date().getMonth()
+let _mon = curMonth
+let _year = new Date().getFullYear()
+// 11个月
+for(let i = 0; i < 12; i++) {
+  // 下一年
+  if(_mon == 0) {
+    _mon = 12
+    _year--
+  }
+  console.log(_mon)
+  _mon--
 }
 // console.log(dates, [...new Set(dList)])
 // '2'.padStart(0)
