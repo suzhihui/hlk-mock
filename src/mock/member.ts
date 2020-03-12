@@ -44,6 +44,7 @@ export const getMembers = (req: Request, res: Response)=> {
   // console.log(pageList)
   return res.json({
     code: 200,
+    ts: new Date().getTime(),
     data: {
       total: memberCount,
       items: pageList
@@ -76,14 +77,17 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
     dList.forEach(item => {
       let ds = item.split('-')
       let _id = ~~(ds[0] + _pendZroe(ds[1]) + _pendZroe(ds[2]))
+      let _now = new Date(item).getTime()
+      let _history = _now < curDate // 是否过成为历史
       actionList.push({
         id: _id,
         merchant_id: _id,
         shop_id: _id,
         customer_id: _id,
-        action_time: new Date(item).getTime(),
+        action_time: _now,
+        is_history: _history, 
         is_pending: faker.random.boolean(),
-        type: faker.random.arrayElement(['service', 'consume', 'service_cycle', 'consume_cycle', 'sms', 'call', 'birth']),
+        type: faker.random.arrayElement(['service', 'consume', 'service_cycle', 'consume_cycle', 'sms', 'call', 'birth', 'remark']),
         batch_serial: faker.random.boolean(), // 循环事件唯一标识
         remark: null,
         amount: faker.random.number(180),

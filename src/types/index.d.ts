@@ -30,6 +30,7 @@ export interface IMemberCoustomeAction{
   shop_id: number,
   customer_id: number,
   action_time: string | number,
+  is_history: boolean,
   is_pending: boolean,
   type: string,
   batch_serial: boolean,
