@@ -60,3 +60,11 @@ export interface ICustomer{
   no: string,
   actionList: IMemberCoustomeAction[] | any
 }
+
+export interface ITransactionData {
+  orderId: string
+  timestamp: string | number
+  username: string
+  price: number
+  status: string
+}
