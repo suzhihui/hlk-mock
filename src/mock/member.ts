@@ -86,7 +86,7 @@ const _renderData = (type, isSystole, curDate):IMemberCoustomeAction[] => {
         _year--
       }
       else {
-        _monList.push(`${_year}-${_mon}-28`)
+        _monList.push(`${_year}-${_mon + 1}-28`)
       }
       _mon--
     }
