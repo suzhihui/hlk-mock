@@ -2,7 +2,7 @@ const path = require('path')
 module.exports = {
   apps : [{
     name: 'hlkapi',
-    script: path.resolve(__dirname, './dist/index.js'),
+    script: path.resolve(__dirname, './dist/src/index.js'),
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
     args: 'one two',
