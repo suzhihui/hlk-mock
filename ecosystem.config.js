@@ -5,7 +5,7 @@ module.exports = {
     script: path.resolve(__dirname, './dist/src/index.js'),
 
     // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
-    args: 'one two',
+    // args: 'one two',
     instances: require('os').cpus().length,
     autorestart: true,
     watch: true,
@@ -15,7 +15,8 @@ module.exports = {
       PORT: 8889
     },
     env_production: {
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
+      PORT: 8889
     }
   }],
 
