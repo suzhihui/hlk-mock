@@ -1,8 +1,13 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    // "target": "esnext",
     "module": "commonjs",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "target": "es6",
+    "sourceMap": false,
+    "outDir": "./dist",
+    "baseUrl": "./"
+
   },
   "include": [
     "**/*.ts",
