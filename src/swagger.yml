@@ -53,8 +53,12 @@ paths:
         - action
       summary: 日动态
       operationId: getDayList
-                          
-                              
+  /action/monthDetailList                       
+    get:
+      tags:
+        - action
+      summary: 月动态
+      operationId: getMonList                      
   /members:
     get:
       tags:

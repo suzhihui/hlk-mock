@@ -1,4 +1,4 @@
-import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo } from './../types/index.d';
+import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon } from './../types/index.d';
 // 顾客
 import { Response, Request } from 'express';
 import faker from 'faker'
@@ -30,6 +30,7 @@ export const customerTypeCount = (req: Request, res: Response) => {
 // mock data
 const dayList:Array<IActionDay> = []
 const dayCustomers:Array<IActionDayItem> = []
+const monCustomers:Array<IActionMonItem> = []
 
 const dayCustomersCount = 100
 for(let i = 1; i < dayCustomersCount; i++) {
@@ -52,9 +53,14 @@ for(let i = 1; i < dayCustomersCount; i++) {
     coustomer: _cus,
     action: [] 
   })
+  monCustomers.push({
+    coustomer: _cus,
+    action: []
+  })
   
 }
 
+// 日动态
 export const getDayList = (req: Request, res: Response) => {
   const {merchantId, customer, startTime, endTime, pageNum, pageSize} = req.query
   let _s = new Date(Number(startTime))
@@ -77,6 +83,33 @@ export const getDayList = (req: Request, res: Response) => {
 
   const content:Array<IActionDayItem> = pageList
 
+
+  return res.json({
+    code: 200,
+    message: 'success',
+    exception: false,
+    content: content
+  })
+}
+
+
+// 月动态
+export const getMonList = (req: Request, res: Response) => {
+  const {merchantId, customer, startTime, endTime, pageNum, pageSize} = req.query
+  let _s = new Date(Number(startTime))
+  let _e = new Date(Number(endTime))
+  const pageList =  dayCustomers.filter((_, i) => i < pageSize * pageNum && i >= pageSize * (pageNum - 1))
+  for(let i = 0; i< pageList.length; i++) {
+    let _len = faker.random.number(10)
+    const _act:IActionMon[] = []
+    for(let j = 0; j < _len; j++) {
+      _act.push({
+        actionDay: faker.date.between(_s, _e).toString(),
+        isConsume: faker.random.boolean()
+      })
+    }
+  }
+  const content:Array<IActionDayItem> = pageList
 
   return res.json({
     code: 200,
