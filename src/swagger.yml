@@ -20,6 +20,41 @@ tags:
   - name: users
     description: Users related api.
 paths:
+  /customer:
+    get:
+      tags: 
+        - customer
+      summary: 顾客概要统计
+      description: 顾客概要统计
+      operationId: customerTypeCount
+      parameters:
+        - name: shopId
+          in: query
+          description: 门店Id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: integer
+                  data:
+                    type: object
+                    properties:
+                      customerTypeCount:
+                        type: array
+  /action/dayList:
+    get:
+      tags:
+        - action
+      summary: 日动态
+      operationId: getDayList
+                          
+                              
   /members:
     get:
       tags:
@@ -322,6 +357,13 @@ components:
       required:
         - code
         - message
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+
     Member:
       type: object
       properties:
