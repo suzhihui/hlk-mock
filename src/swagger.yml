@@ -53,12 +53,58 @@ paths:
         - action
       summary: 日动态
       operationId: getDayList
-  /action/monthDetailList                       
+  /action/monthDetailList:                    
     get:
       tags:
         - action
       summary: 月动态
       operationId: getMonList                      
+  /action/monthList:                    
+    get:
+      tags:
+        - action
+      summary: 月动态缩略
+      operationId: getMonListExt                      
+  /action/add:                    
+    post:
+      tags:
+        - action
+      summary: 新增动态
+      operationId: addAction
+      parameters:
+        - name: action
+          in: query
+          required: true
+          description: 新增动态数据.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:                 
+  /action/update/{merchantId}/{id}:                    
+    put:
+      tags:
+        - action
+      summary: 动态修改
+      operationId: mutifiyAction
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+        - name: id
+          in: path
+          required: true
+          description: 动态id
+        - name: action
+          in: query
+          required: true
+          description: 新增动态数据.
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:                 
   /members:
     get:
       tags:

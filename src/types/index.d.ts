@@ -113,7 +113,7 @@ interface IActionMon {
 // 月动态缩略 action
 interface IActionMonExt {
   actionTimes: number, // 动态次数
-  actionDay: string, // 2020-01-01
+  actionMonth: string, // 2020-01-01
   isConsume: boolean // 是否有消费
 }
 // 顾客信息
@@ -135,7 +135,7 @@ export interface IActionDayItem {
 // 月动态
 export interface IActionMonItem{
   coustomer: ICustomerItem,
-  action: Array<IActionMon>
+  action: Array<IActionMon|IActionMonExt>
 }
 
 export interface IActionMonListExt{
@@ -154,7 +154,7 @@ export interface IRequestActionAdd{
 }
 export interface IRequestActionUpdate{
   remark: string,
-  status: string,
+  status: string, // 状态
   actionStatus: string, // 事项状态
   feedBack: string, // 反馈内容
   finishUser: string, // 完成人

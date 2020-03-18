@@ -1,8 +1,9 @@
-import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon } from './../types/index.d';
+import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon, IActionMonExt, IRequestActionAdd, IRequestActionUpdate } from './../types/index.d';
 // 顾客
 import { Response, Request } from 'express';
 import faker from 'faker'
 import { ITypeCountItem } from 'src/types';
+import { getDayStr, compare, filterArr } from './../utils';
 faker.locale = "zh_CN"
 
 const typeItems: ITypeCountItem[] = []
@@ -29,8 +30,8 @@ export const customerTypeCount = (req: Request, res: Response) => {
 // 顾客动态
 // mock data
 const dayList:Array<IActionDay> = []
-const dayCustomers:Array<IActionDayItem> = []
-const monCustomers:Array<IActionMonItem> = []
+const dayCustomers:Array<IActionDayItem> = [] // 日动态
+const monCustomers:Array<IActionMonItem> = [] // 月动态、缩略模式
 
 const dayCustomersCount = 100
 for(let i = 1; i < dayCustomersCount; i++) {
@@ -98,23 +99,83 @@ export const getMonList = (req: Request, res: Response) => {
   const {merchantId, customer, startTime, endTime, pageNum, pageSize} = req.query
   let _s = new Date(Number(startTime))
   let _e = new Date(Number(endTime))
-  const pageList =  dayCustomers.filter((_, i) => i < pageSize * pageNum && i >= pageSize * (pageNum - 1))
+  const pageList =  monCustomers.filter((_, i) => i < pageSize * pageNum && i >= pageSize * (pageNum - 1))
   for(let i = 0; i< pageList.length; i++) {
-    let _len = faker.random.number(10)
+    let _len = faker.random.number(12)
     const _act:IActionMon[] = []
     for(let j = 0; j < _len; j++) {
       _act.push({
-        actionDay: faker.date.between(_s, _e).toString(),
+        actionDay: faker.date.between(_s, _e).getTime().toString(),
         isConsume: faker.random.boolean()
       })
     }
+    pageList[i].action = [..._act]
   }
-  const content:Array<IActionDayItem> = pageList
+  const content:Array<IActionMonItem> = pageList
 
   return res.json({
     code: 200,
     message: 'success',
     exception: false,
     content: content
+  })
+}
+
+// 月动态缩略
+export const getMonListExt = (req: Request, res: Response) => {
+  const {merchantId, customer, startTime, endTime, pageNum, pageSize} = req.query
+  let _s = new Date(Number(startTime))
+  let _e = new Date(Number(endTime))
+  const pageList =  monCustomers.filter((_, i) => i < pageSize * pageNum && i >= pageSize * (pageNum - 1))
+  let _len = faker.random.number(48)
+  const _act:IActionMonExt[] = []
+  pageList.forEach(item => {
+    for(let i = 0; i < _len; i++) {
+      _act.push({
+        actionTimes: faker.random.number(99),
+        actionMonth: getDayStr(new Date(faker.date.between(_s, _e))),
+        isConsume: faker.random.boolean()
+      })
+    }
+    item.action = filterArr(_act.sort(compare('actionMonth')), 'actionMonth')
+  })
+
+  const content:Array<IActionMonItem> = pageList
+
+  return res.json({
+    code: 200,
+    message: 'success',
+    exception: false,
+    content: content
+  })
+}
+
+// 动态新增
+export const addAction = (req: Request, res: Response) => {
+  const {action} = req.body
+  console.log(action)
+  let _postData:IRequestActionAdd = action
+  return res.json({
+    code: 200,
+    message: 'success',
+    success: true,
+    exception: faker.random.boolean(),
+    content: '200',
+    postData: _postData
+  })
+}
+
+// 动态修改
+export const mutifiyAction = (req: Request, res: Response) => {
+  const {merchantId, id} = req.query
+  const {action} = req.body
+  const _putData:IRequestActionUpdate = action
+  return res.json({
+    code: 200,
+    message: 'success',
+    success: true,
+    exception: faker.random.boolean(),
+    content: '200', // 动态code
+    postData: _putData
   })
 }
