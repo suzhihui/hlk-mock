@@ -132,8 +132,9 @@ export interface IActionDayItem {
   action: Array<IActionDay>// 顾客动态
 }
 
-export interface IActionMonList{
-  coustomer: Array<ICustomerItem>,
+// 月动态
+export interface IActionMonItem{
+  coustomer: ICustomerItem,
   action: Array<IActionMon>
 }
 
