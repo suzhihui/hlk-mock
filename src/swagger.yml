@@ -20,14 +20,18 @@ tags:
   - name: users
     description: Users related api.
 paths:
-  /customer:
+  /customer/{merchantId}/customer:
     get:
       tags: 
         - customer
-      summary: 顾客概要统计
-      description: 顾客概要统计
-      operationId: customerTypeCount
+      summary: 顾客概要
+      description: 顾客概要
+      operationId: getCustomer
       parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
         - name: shopId
           in: query
           description: 门店Id
@@ -47,25 +51,43 @@ paths:
                     properties:
                       customerTypeCount:
                         type: array
-  /action/dayList:
+  /customer/{merchantId}/num_of_distribution_new:
+    get:
+      tags:
+        -customer: 24小时内新顾客分配数
+      operationId: getNewCustomer
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+        - name: shopId
+          in: query
+          description: 门店Id
+      responses:
+        description: ok
+        content:
+          application/json:
+       
+  /customer/action/dayList:
     get:
       tags:
         - action
       summary: 日动态
       operationId: getDayList
-  /action/monthDetailList:                    
+  /customer/action/monthDetailList:                    
     get:
       tags:
         - action
       summary: 月动态
       operationId: getMonList                      
-  /action/monthList:                    
+  /customer/action/monthList:                    
     get:
       tags:
         - action
       summary: 月动态缩略
       operationId: getMonListExt                      
-  /action/add:                    
+  /customer/action/add:                    
     post:
       tags:
         - action
@@ -81,7 +103,7 @@ paths:
           description: OK
           content:
             application/json:                 
-  /action/update/{merchantId}/{id}:                    
+  /customer/action/update/{merchantId}/{id}:                    
     put:
       tags:
         - action
@@ -105,7 +127,7 @@ paths:
           description: OK
           content:
             application/json:                 
-  /members:
+  /customer/{merchantId}/members:
     get:
       tags:
         - members
@@ -113,6 +135,10 @@ paths:
       description: Return a list of members.
       operationId: getMembers
       parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
         - name: type
           in: query
           description: 动态类型
@@ -161,6 +187,34 @@ paths:
                         type: array
                         items:
                           $ref: '#/components/schemas/Member'
+  /customer/{merchantId}/query_config:
+    get:
+      tags: 
+        - members
+      summary: 搜索器查询
+      description: 搜索器查询
+      operationId: searchQuery
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+  /customer/{merchantId}/query_config/{id}:
+    delete:
+      tags: 
+        - members
+      summary: 搜索器查询
+      description: 搜索器查询
+      operationId: searchDel
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+        - name: id
+          in: path
+          required: true
+          description: 搜索器id
   /articles:
     get:
       tags:

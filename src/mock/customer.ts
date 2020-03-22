@@ -1,31 +1,114 @@
+import { IResponseAdvSearch, IAdvSearchItem } from './../types/customer.d';
 import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon, IActionMonExt, IRequestActionAdd, IRequestActionUpdate } from './../types/index.d';
 // 顾客
 import { Response, Request } from 'express';
 import faker from 'faker'
 import { ITypeCountItem } from 'src/types';
 import { getDayStr, compare, filterArr } from './../utils';
+import { IclassItems, IClasses, IMetaTs, IActionTodo } from 'src/types/customer';
 faker.locale = "zh_CN"
 
-const typeItems: ITypeCountItem[] = []
-let typeItemsCount = 4
-for(let i = 0; i < typeItemsCount; i++) {
-  typeItems.push({
-    type: faker.name.findName(),
-    typeCount: faker.random.number(120) + ''
-  })
-}
+// 顾客概要数据
+const classItemCon:Array<IClasses> = [
+  {
+    classifyType: '消费能力',
+    detail:[
+      {
+        id: 1,
+        count: 28,
+        classifyCode: 'C',
+        color: '#D5874E'
+      },
+      {
+        id: 2,
+        count: 61,
+        classifyCode: 'B',
+        color: '#9AB3D7'
+      },
+      {
+        id: 3,
+        count: 309,
+        classifyCode: 'A',
+        color: '#FFAF0B'
+      }
+    ]
+  },
+  {
+    classifyType: '手动分类项目类别客',
+    detail:[
+      {
+        id: 1,
+        count: 26,
+        classifyCode: '身',
+        color: '#71D187'
+      },
+      {
+        id: 2,
+        count: 42,
+        classifyCode: '基',
+        color: '#FE6C6C'
+      },
+      {
+        id: 3,
+        count: 419,
+        classifyCode: '疗',
+        color: '#538FFF'
+      }
+    ]
+  },
+  {
+    classifyType: '手动分类项2',
+    detail:[
+      {
+        id: 1,
+        count: 4,
+        classifyCode: '大',
+        color: '#71D187'
+      },
+      {
+        id: 2,
+        count: 48,
+        classifyCode: '特',
+        color: '#FE6C6C'
+      },
+      {
+        id: 3,
+        count: 81,
+        classifyCode: '绝',
+        color: '#FFA76A'
+      },
+      {
+        id: 4,
+        count: 82,
+        classifyCode: '豪',
+        color: '#538FFF'
+      }
+    ]
+  },
+]
 
+const metaTs:IMetaTs = {
+  user: faker.random.number(32),
+  property: faker.random.number(128),
+  config: faker.random.number(18)
+}
 // 顾客概要统计
-export const customerTypeCount = (req: Request, res: Response) => {
+export const getCustomer = (req: Request, res: Response) => {
 
   return res.json({
     code: 200,
     ts: new Date().getTime(),
-    data: {
-      customerTypeCount: typeItems
-    }
+    content: classItemCon,
+    metaTs: metaTs
   })
 }
+let num:number = faker.random.number(9)
+// 24小时内新顾客分配数
+export const getNewCustomer = (req: Request, res: Response) => 
+  res.json({
+    code: 200,
+    content: num || num++
+  })
 
 // 顾客动态
 // mock data
@@ -177,5 +260,37 @@ export const mutifiyAction = (req: Request, res: Response) => {
     exception: faker.random.boolean(),
     content: '200', // 动态code
     postData: _putData
+  })
+}
+
+/******************** 顾客高级查询搜索器 */
+const searchList:Array<IAdvSearchItem> = []
+let searchLen:number = faker.random.number(9)
+if(searchLen == 0) searchLen++
+for (let i = 0; i < searchLen; i++) {
+  searchList.push({
+    queryName: `搜索器${i+1}`,
+    detail: faker.name.jobArea(),
+    isMobileEnable: faker.random.arrayElement([`Y`, 'N']),
+    id: i+''
+  })
+}
+// 查
+export const searchQuery = (req: Request, res: Response) => {
+  const {merchantId, shopId, userId} = req.query
+  return res.json({
+    code: 200,
+    message: 'success',
+    configs: searchList
+  })
+}
+
+// 删
+export const searchDel = (req: Request, res: Response) => {
+  const {merchantId, id} = req.query
+  console.log(merchantId, '---', id, req.path);
+  return res.json({
+    code: 200,
+    message: 'success'
   })
 }
