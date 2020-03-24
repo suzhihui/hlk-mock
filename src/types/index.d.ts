@@ -129,18 +129,18 @@ export interface ICustomerItem {
 // 日动态
 export interface IActionDayItem {
   coustomer: ICustomerItem, // 顾客信息
-  action: Array<IActionDay>// 顾客动态
+  actions: Array<IActionDay>// 顾客动态
 }
 
 // 月动态
 export interface IActionMonItem{
   coustomer: ICustomerItem,
-  action: Array<IActionMon|IActionMonExt>
+  actions: Array<IActionMon|IActionMonExt>
 }
 
 export interface IActionMonListExt{
   coustomer: Array<ICustomerItem>,
-  action: Array<IActionMonExt>
+  actions: Array<IActionMonExt>
 }
 
 export interface IRequestActionAdd{

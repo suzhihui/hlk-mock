@@ -68,12 +68,12 @@ interface IActionMonExt {
 // 月动态
 export interface IActionMonItem{
   coustomer       : ICustomerItem
-  action          : Array<IActionMon|IActionMonExt>
+  actions          : Array<IActionMon|IActionMonExt>
 }
 // 月动态缩略
 export interface IActionMonListExt{
   coustomer       : Array<ICustomerItem>
-  action          : Array<IActionMonExt>
+  actions          : Array<IActionMonExt>
 }
 
 // 顾客信息

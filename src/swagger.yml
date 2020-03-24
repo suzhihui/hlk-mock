@@ -69,12 +69,17 @@ paths:
         content:
           application/json:
        
-  /customer/action/dayList:
+  /customer/{merchantId}/action/dayList:
     get:
       tags:
         - action
       summary: 日动态
       operationId: getDayList
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
   /customer/action/monthDetailList:                    
     get:
       tags:

@@ -135,11 +135,11 @@ for(let i = 1; i < dayCustomersCount; i++) {
   }
   dayCustomers.push({
     coustomer: _cus,
-    action: [] 
+    actions: [] 
   })
   monCustomers.push({
     coustomer: _cus,
-    action: []
+    actions: []
   })
   
 }
@@ -156,13 +156,13 @@ export const getDayList = (req: Request, res: Response) => {
     for(let j = 0; j < _len; j++) {
       _act.push({
         type: faker.random.arrayElement(['SERVICE', 'CONSUME', 'SERVICE_CYCLE', 'CONSUME_CYCLE', 'SMS', 'CALL', 'BIRTH']),
-        remark: faker.random.words(18),
+        remark: faker.random.boolean() && faker.random.words(18),
         actionTime: new Date(faker.date.between(_s, _e)).getTime(),
         isPending: faker.random.arrayElement(['Y', 'N']),
         actionStatus: faker.random.arrayElement(['FINISHEDD', 'UNFINISHED'])
       })
     }
-    pageList[i].action =[..._act]
+    pageList[i].actions =[..._act]
   }
 
   const content:Array<IActionDayItem> = pageList
@@ -192,7 +192,7 @@ export const getMonList = (req: Request, res: Response) => {
         isConsume: faker.random.boolean()
       })
     }
-    pageList[i].action = [..._act]
+    pageList[i].actions = [..._act]
   }
   const content:Array<IActionMonItem> = pageList
 
@@ -220,7 +220,7 @@ export const getMonListExt = (req: Request, res: Response) => {
         isConsume: faker.random.boolean()
       })
     }
-    item.action = filterArr(_act.sort(compare('actionMonth')), 'actionMonth')
+    item.actions = filterArr(_act.sort(compare('actionMonth')), 'actionMonth')
   })
 
   const content:Array<IActionMonItem> = pageList
