@@ -118,12 +118,12 @@ const monCustomers:Array<IActionMonItem> = [] // 月动态、缩略模式
 
 const dayCustomersCount = 100
 for(let i = 1; i < dayCustomersCount; i++) {
-  let _len = faker.random.number(5)
+  let _len = faker.random.number(5) || 1
   const _items:Array<ICustomerInfo> =[]
   for(let j = 0; j < _len; j++) {
     _items.push({
       name: faker.name.lastName(2),
-      leaveTime: faker.random.number(10)
+      leaveTime: faker.random.number(9)||1
     })
   }
   const _cus:ICustomerItem = {
