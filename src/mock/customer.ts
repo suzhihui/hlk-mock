@@ -1,4 +1,4 @@
-import { IResponseAdvSearch, IAdvSearchItem } from './../types/customer.d';
+import { IResponseAdvSearch, IAdvSearchItem, IRequestMemberInfo, IResponseMemberInfo, ImemberDetail, ImemberItem } from './../types/customer.d';
 import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon, IActionMonExt, IRequestActionAdd, IRequestActionUpdate } from './../types/index.d';
 // 顾客
 import { Response, Request } from 'express';
@@ -109,6 +109,46 @@ export const getNewCustomer = (req: Request, res: Response) =>
     code: 200,
     content: num || num++
   })
+// 提交的用户信息集合
+const customerMap:Array<IRequestMemberInfo> = []
+let _content:Array<ImemberItem> = []
+const _responeCount = customerMap.length+1
+for(let i = 0; i < _responeCount; i++) {
+  let j = faker.random.number(4) || 1
+  let _detail:Array<ImemberDetail>=[]
+  for(let _j = 0; _j < j; _j++) {
+    _detail.push({
+      classifyCode: faker.name.firstName(1),
+      count: faker.random.number(9) || 1
+    })
+  }
+  _content.push({
+    classifyTypeCode: faker.random.number().toString(),
+    detail: _detail
+  })
+}
+// 新增会员
+export const addCustomer = (req: Request, res: Response) => {
+  // console.log('run here ---------------', req.body, 'req.query', req.query);
+  const {shopId, name, no, mobile} = req.query
+  let code:number = 200
+  let message:string = 'success'
+  if(customerMap.some(item => item.mobile === req.body.mobile)) {
+    code = -1
+    message = '手机号已存在！'
+  }
+  else {
+    customerMap.push(Object.assign(req.body, {id: customerMap.length}))
+  }
+
+  return res.json({
+    code: code,
+    message:message,
+    success: code===200,
+    content: _content
+  })
+}
+
 
 // 顾客动态
 // mock data
