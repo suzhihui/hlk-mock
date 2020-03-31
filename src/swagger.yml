@@ -97,18 +97,28 @@ paths:
           in: path
           required: true
           description: 商户id
-  /customer/action/monthDetailList:                    
+  /customer/{merchantId}/action/monthly_action_detail:                    
     get:
       tags:
         - action
       summary: 月动态
-      operationId: getMonList                      
-  /customer/action/monthList:                    
+      operationId: getMonList  
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id                    
+  /customer/{merchantId}/action/monthList:                    
     get:
       tags:
         - action
       summary: 月动态缩略
-      operationId: getMonListExt                      
+      operationId: getMonListExt
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id                     
   /customer/{merchantId}/action/add:                    
     post:
       tags:
