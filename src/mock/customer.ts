@@ -8,6 +8,16 @@ import { getDayStr, compare, filterArr } from './../utils';
 import { IclassItems, IClasses, IMetaTs, IActionTodo } from 'src/types/customer';
 faker.locale = "zh_CN"
 
+// metadata
+export const getMetadata = (req: Request, res: Response) => {
+  res.json({
+    code: '0',
+    message: 'success',
+    content: {}
+  })
+}
+
+
 // 顾客概要数据
 const classItemCon:Array<IClasses> = [
   {
