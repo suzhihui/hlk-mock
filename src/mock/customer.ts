@@ -8,12 +8,283 @@ import { getDayStr, compare, filterArr } from './../utils';
 import { IclassItems, IClasses, IMetaTs, IActionTodo } from 'src/types/customer';
 faker.locale = "zh_CN"
 
+const metedata:any = {
+  "code": "SUCCESS",
+  "message": null,
+  "metaTs": null,
+  "success": true,
+  "content": {
+     "classify": [
+        {
+           "code": "POTENTIAL",
+           "typeCode": "STAGE",
+           "name": "潜在客",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "TRIAL",
+           "typeCode": "STAGE",
+           "name": "体验客",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "MEMBER",
+           "typeCode": "STAGE",
+           "name": "会员",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "DANGER",
+           "typeCode": "STAGE",
+           "name": "临时会员",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "BJK_3",
+           "typeCode": "XFNL",
+           "name": "B级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "CJHY_5",
+           "typeCode": "DK",
+           "name": "初级会员",
+           "type": "MANUAL"
+        },
+        {
+           "code": "ZJHY",
+           "typeCode": "DK",
+           "name": "中级会员",
+           "type": "MANUAL"
+        },
+        {
+           "code": "AJK_10",
+           "typeCode": "XFNL_5",
+           "name": "A级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "BJK_11",
+           "typeCode": "XFNL_5",
+           "name": "B级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "CJK_12",
+           "typeCode": "XFNL_5",
+           "name": "C级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "DJK",
+           "typeCode": "XFNL_5",
+           "name": "D级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "GJHY",
+           "typeCode": "DK",
+           "name": "高级会员",
+           "type": "MANUAL"
+        }
+     ],
+     "actionType": [
+        {
+           "code": "SERVICE",
+           "name": "到店记录",
+           "icon": null,
+           "shortName": "到",
+           "isPending": "N"
+        },
+        {
+           "code": "CONSUME",
+           "name": "消费记录",
+           "icon": null,
+           "shortName": "消",
+           "isPending": "N"
+        },
+        {
+           "code": "BIRTH",
+           "name": "生日",
+           "icon": null,
+           "shortName": "生",
+           "isPending": "Y"
+        },
+        {
+           "code": "CALL",
+           "name": "电话回访",
+           "icon": null,
+           "shortName": "电",
+           "isPending": "Y"
+        },
+        {
+           "code": "SMS",
+           "name": "短信回访",
+           "icon": null,
+           "shortName": "短",
+           "isPending": "Y"
+        },
+        {
+           "code": "SERVICE_CYCLE",
+           "name": "到店周期",
+           "icon": null,
+           "shortName": "到",
+           "isPending": "Y"
+        },
+        {
+           "code": "SERVICE_WARN",
+           "name": "长时间未到店",
+           "icon": null,
+           "shortName": "长",
+           "isPending": "N"
+        },
+        {
+           "code": "SERVICE_DANGER",
+           "name": "超长时间未到店",
+           "icon": null,
+           "shortName": "超",
+           "isPending": "N"
+        },
+        {
+           "code": "YYLD",
+           "name": "预约到店",
+           "icon": "sdf",
+           "shortName": "预",
+           "isPending": "Y"
+        },
+        {
+           "code": "HZSR",
+           "name": "孩子生日",
+           "icon": "esse officia",
+           "shortName": "sit",
+           "isPending": "Y"
+        }
+     ],
+     "tagType": [
+        {
+           "code": "FZ",
+           "name": "肤质"
+        },
+        {
+           "code": "JK",
+           "name": "健康"
+        },
+        {
+           "code": "FS",
+           "name": "肤色"
+        }
+     ],
+     "classifyType": [
+        {
+           "code": "STAGE",
+           "name": "会员阶段",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "XFNL_5",
+           "name": "消费能力",
+           "type": "AUTO"
+        },
+        {
+           "code": "DK",
+           "name": "会员阶段",
+           "type": "MANUAL"
+        }
+     ],
+     "tag": [
+        {
+           "code": null,
+           "name": "干性",
+           "typeCode": "FZ"
+        },
+        {
+           "code": null,
+           "name": "健康",
+           "typeCode": "JK"
+        },
+        {
+           "code": null,
+           "name": "油性",
+           "typeCode": "FZ"
+        },
+        {
+           "code": null,
+           "name": "白色",
+           "typeCode": "FS"
+        },
+        {
+           "code": null,
+           "name": "黄色",
+           "typeCode": "FS"
+        },
+        {
+           "code": null,
+           "name": "中性",
+           "typeCode": "FZ"
+        },
+        {
+           "code": null,
+           "name": "亚健康",
+           "typeCode": "JK"
+        },
+        {
+           "code": null,
+           "name": "黑色",
+           "typeCode": "FS"
+        }
+     ],
+     "source": [
+        {
+           "code": "DZDP",
+           "name": "大众点评"
+        },
+        {
+           "code": "GoI5G",
+           "name": "员工带客"
+        },
+        {
+           "code": "CS",
+           "name": "测试"
+        },
+        {
+           "code": "MT",
+           "name": "美团"
+        },
+        {
+           "code": "KDK",
+           "name": "客带客"
+        },
+        {
+           "code": "SMKR",
+           "name": "上门客人"
+        }
+     ],
+     "logTpl": [
+        {
+           "code": "HFRZ_13",
+           "title": "回访日志",
+           "isVisible": "N"
+        },
+        {
+           "code": "HLRZ_14",
+           "title": "护理日志",
+           "isVisible": "N"
+        },
+        {
+           "code": "DXH2F_15",
+           "title": "短信回2访",
+           "isVisible": "N"
+        }
+     ],
+     "qureyConfig": []
+  }
+}
 // metadata
 export const getMetadata = (req: Request, res: Response) => {
   res.json({
     code: '0',
     message: 'success',
-    content: {}
+    content: metedata
   })
 }
 
@@ -103,7 +374,7 @@ const metaTs:IMetaTs = {
   config: faker.random.number(18)
 }
 // 顾客概要统计
-export const getCustomer = (req: Request, res: Response) => {
+export const getSummary = (req: Request, res: Response) => {
 
   return res.json({
     code: 200,

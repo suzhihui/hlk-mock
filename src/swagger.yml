@@ -22,13 +22,25 @@ tags:
   - name: customer
     description: 顾客模块
 paths:
-  /customer/{merchantId}/customer:
+  /customer/{merchantId}/metadata:
+    get:
+      tags: 
+        - customer
+      summary: 顾客metadata
+      description: 顾客metadata
+      operationId: getMetadata
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+  /customer/{merchantId}/summary:
     get:
       tags: 
         - customer
       summary: 顾客概要
       description: 顾客概要
-      operationId: getCustomer
+      operationId: getSummary
       parameters:
         - name: merchantId
           in: path
