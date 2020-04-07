@@ -19,7 +19,21 @@ tags:
     description: Transactions data related api.
   - name: users
     description: Users related api.
+  - name: customer
+    description: 顾客模块
 paths:
+  /customer/{merchantId}/metadata:
+    get:
+      tags: 
+        - customer
+      summary: 顾客metadata
+      description: 顾客metadata
+      operationId: getMetadata
+      parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
   /customer/{merchantId}/summary:
     get:
       tags: 
@@ -51,10 +65,25 @@ paths:
                     properties:
                       customerTypeCount:
                         type: array
+    post:
+      tags:
+        - customer
+      summary: 新增顾客
+      operationId: addCustomer
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:  
   /customer/{merchantId}/num_of_distribution_new:
     get:
       tags:
-        -customer: 24小时内新顾客分配数
+        - customer: 24小时内新顾客分配数
       operationId: getNewCustomer
       parameters: 
         - name: merchantId
@@ -87,6 +116,7 @@ paths:
         content:
           application/json:
   
+ 
   /customer/{merchantId}/action/dayList:
     get:
       tags:
@@ -98,25 +128,39 @@ paths:
           in: path
           required: true
           description: 商户id
-  /customer/action/monthDetailList:                    
+  /customer/{merchantId}/action/monthly_action_detail:                    
     get:
       tags:
         - action
       summary: 月动态
-      operationId: getMonList                      
-  /customer/action/monthList:                    
+      operationId: getMonList  
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id                    
+  /customer/{merchantId}/action/monthList:                    
     get:
       tags:
         - action
       summary: 月动态缩略
-      operationId: getMonListExt                      
-  /customer/action/add:                    
+      operationId: getMonListExt
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id                     
+  /customer/{merchantId}/action/add:                    
     post:
       tags:
-        - action
+        - customer
       summary: 新增动态
       operationId: addAction
       parameters:
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
         - name: action
           in: query
           required: true
@@ -129,7 +173,7 @@ paths:
   /customer/action/update/{merchantId}/{id}:                    
     put:
       tags:
-        - action
+        - customer
       summary: 动态修改
       operationId: mutifiyAction
       parameters:

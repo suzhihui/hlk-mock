@@ -1,4 +1,4 @@
-import { IResponseAdvSearch, IAdvSearchItem, ICustomerListItem } from './../types/customer.d';
+import { IResponseAdvSearch, IAdvSearchItem, ICustomerListItem, IRequestMemberInfo, IResponseMemberInfo, ImemberDetail, ImemberItem } from './../types/customer.d';
 import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon, IActionMonExt, IRequestActionAdd, IRequestActionUpdate } from './../types/index.d';
 // 顾客
 import { Response, Request } from 'express';
@@ -8,6 +8,287 @@ import { getDayStr, compare, filterArr } from './../utils';
 import { IclassItems, IClasses, IMetaTs, IActionTodo } from 'src/types/customer';
 import moment from 'moment'
 faker.locale = "zh_CN"
+
+const metedata:any = {
+  "code": "SUCCESS",
+  "message": null,
+  "metaTs": null,
+  "success": true,
+  "content": {
+     "classify": [
+        {
+           "code": "POTENTIAL",
+           "typeCode": "STAGE",
+           "name": "潜在客",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "TRIAL",
+           "typeCode": "STAGE",
+           "name": "体验客",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "MEMBER",
+           "typeCode": "STAGE",
+           "name": "会员",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "DANGER",
+           "typeCode": "STAGE",
+           "name": "临时会员",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "BJK_3",
+           "typeCode": "XFNL",
+           "name": "B级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "CJHY_5",
+           "typeCode": "DK",
+           "name": "初级会员",
+           "type": "MANUAL"
+        },
+        {
+           "code": "ZJHY",
+           "typeCode": "DK",
+           "name": "中级会员",
+           "type": "MANUAL"
+        },
+        {
+           "code": "AJK_10",
+           "typeCode": "XFNL_5",
+           "name": "A级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "BJK_11",
+           "typeCode": "XFNL_5",
+           "name": "B级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "CJK_12",
+           "typeCode": "XFNL_5",
+           "name": "C级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "DJK",
+           "typeCode": "XFNL_5",
+           "name": "D级客",
+           "type": "AUTO"
+        },
+        {
+           "code": "GJHY",
+           "typeCode": "DK",
+           "name": "高级会员",
+           "type": "MANUAL"
+        }
+     ],
+     "actionType": [
+        {
+           "code": "SERVICE",
+           "name": "到店记录",
+           "icon": null,
+           "shortName": "到",
+           "isPending": "N"
+        },
+        {
+           "code": "CONSUME",
+           "name": "消费记录",
+           "icon": null,
+           "shortName": "消",
+           "isPending": "N"
+        },
+        {
+           "code": "BIRTH",
+           "name": "生日",
+           "icon": null,
+           "shortName": "生",
+           "isPending": "Y"
+        },
+        {
+           "code": "CALL",
+           "name": "电话回访",
+           "icon": null,
+           "shortName": "电",
+           "isPending": "Y"
+        },
+        {
+           "code": "SMS",
+           "name": "短信回访",
+           "icon": null,
+           "shortName": "短",
+           "isPending": "Y"
+        },
+        {
+           "code": "SERVICE_CYCLE",
+           "name": "到店周期",
+           "icon": null,
+           "shortName": "到",
+           "isPending": "Y"
+        },
+        {
+           "code": "SERVICE_WARN",
+           "name": "长时间未到店",
+           "icon": null,
+           "shortName": "长",
+           "isPending": "N"
+        },
+        {
+           "code": "SERVICE_DANGER",
+           "name": "超长时间未到店",
+           "icon": null,
+           "shortName": "超",
+           "isPending": "N"
+        },
+        {
+           "code": "YYLD",
+           "name": "预约到店",
+           "icon": "sdf",
+           "shortName": "预",
+           "isPending": "Y"
+        },
+        {
+           "code": "HZSR",
+           "name": "孩子生日",
+           "icon": "esse officia",
+           "shortName": "sit",
+           "isPending": "Y"
+        }
+     ],
+     "tagType": [
+        {
+           "code": "FZ",
+           "name": "肤质"
+        },
+        {
+           "code": "JK",
+           "name": "健康"
+        },
+        {
+           "code": "FS",
+           "name": "肤色"
+        }
+     ],
+     "classifyType": [
+        {
+           "code": "STAGE",
+           "name": "会员阶段",
+           "type": "DEFAULT"
+        },
+        {
+           "code": "XFNL_5",
+           "name": "消费能力",
+           "type": "AUTO"
+        },
+        {
+           "code": "DK",
+           "name": "会员阶段",
+           "type": "MANUAL"
+        }
+     ],
+     "tag": [
+        {
+           "code": null,
+           "name": "干性",
+           "typeCode": "FZ"
+        },
+        {
+           "code": null,
+           "name": "健康",
+           "typeCode": "JK"
+        },
+        {
+           "code": null,
+           "name": "油性",
+           "typeCode": "FZ"
+        },
+        {
+           "code": null,
+           "name": "白色",
+           "typeCode": "FS"
+        },
+        {
+           "code": null,
+           "name": "黄色",
+           "typeCode": "FS"
+        },
+        {
+           "code": null,
+           "name": "中性",
+           "typeCode": "FZ"
+        },
+        {
+           "code": null,
+           "name": "亚健康",
+           "typeCode": "JK"
+        },
+        {
+           "code": null,
+           "name": "黑色",
+           "typeCode": "FS"
+        }
+     ],
+     "source": [
+        {
+           "code": "DZDP",
+           "name": "大众点评"
+        },
+        {
+           "code": "GoI5G",
+           "name": "员工带客"
+        },
+        {
+           "code": "CS",
+           "name": "测试"
+        },
+        {
+           "code": "MT",
+           "name": "美团"
+        },
+        {
+           "code": "KDK",
+           "name": "客带客"
+        },
+        {
+           "code": "SMKR",
+           "name": "上门客人"
+        }
+     ],
+     "logTpl": [
+        {
+           "code": "HFRZ_13",
+           "title": "回访日志",
+           "isVisible": "N"
+        },
+        {
+           "code": "HLRZ_14",
+           "title": "护理日志",
+           "isVisible": "N"
+        },
+        {
+           "code": "DXH2F_15",
+           "title": "短信回2访",
+           "isVisible": "N"
+        }
+     ],
+     "qureyConfig": []
+  }
+}
+// metadata
+export const getMetadata = (req: Request, res: Response) => {
+  res.json({
+    code: '0',
+    message: 'success',
+    content: metedata
+  })
+}
+
 
 // 顾客概要数据
 const classItemCon:Array<IClasses> = [
@@ -110,6 +391,46 @@ export const getNewCustomer = (req: Request, res: Response) =>
     code: 200,
     content: num || num++
   })
+// 提交的用户信息集合
+const customerMap:Array<IRequestMemberInfo> = []
+let _content:Array<ImemberItem> = []
+const _responeCount = customerMap.length+1
+for(let i = 0; i < _responeCount; i++) {
+  let j = faker.random.number(4) || 1
+  let _detail:Array<ImemberDetail>=[]
+  for(let _j = 0; _j < j; _j++) {
+    _detail.push({
+      classifyCode: faker.name.firstName(1),
+      count: faker.random.number(9) || 1
+    })
+  }
+  _content.push({
+    classifyTypeCode: faker.random.number().toString(),
+    detail: _detail
+  })
+}
+// 新增会员
+export const addCustomer = (req: Request, res: Response) => {
+  // console.log('run here ---------------', req.body, 'req.query', req.query);
+  const {shopId, name, no, mobile} = req.query
+  let code:number = 200
+  let message:string = 'success'
+  if(customerMap.some(item => item.mobile === req.body.mobile)) {
+    code = -1
+    message = '手机号已存在！'
+  }
+  else {
+    customerMap.push(Object.assign(req.body, {id: customerMap.length}))
+  }
+
+  return res.json({
+    code: code,
+    message:message,
+    success: code===200,
+    content: _content
+  })
+}
+
 
 const custromerList:Array<ICustomerListItem> = []
 const custromerListCount:number = 100
@@ -156,12 +477,12 @@ const monCustomers:Array<IActionMonItem> = [] // 月动态、缩略模式
 
 const dayCustomersCount = 100
 for(let i = 1; i < dayCustomersCount; i++) {
-  let _len = faker.random.number(5)
+  let _len = faker.random.number(5) || 1
   const _items:Array<ICustomerInfo> =[]
   for(let j = 0; j < _len; j++) {
     _items.push({
       name: faker.name.lastName(2),
-      leaveTime: faker.random.number(10)
+      leaveTime: faker.random.number(9)||1
     })
   }
   const _cus:ICustomerItem = {

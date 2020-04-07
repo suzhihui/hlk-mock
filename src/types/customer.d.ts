@@ -1,6 +1,7 @@
 
 // 顾客相关接口定义
 
+
 /******************************** 顾客概要 **************************/
 // 顾客概要
 interface IMetaTs {
@@ -59,6 +60,36 @@ interface IActionTodo {
   classifyThdCode : string   // 会员第三维度code
   action          : Array<IAction>
 }
+
+// 顾客信息
+interface IRequestMemberInfo {
+  shopId          : number    // 门店Id
+  mobile          : string    // 手机号
+  name            : string    // 姓名
+  no              : string    // 档案号
+  departmentNo    : string    // 部门号
+  birth_year      : string    // 生日年份
+  birth_day       : string    // 生日日期
+  birth_type      : string    // L:农历  s: 阳历
+  gender          : string    // 性别
+  sourceCode      : string    // 来源
+  remark          : string    // 备注
+  id             ?: number
+}
+interface ImemberItem{
+  classifyTypeCode: string
+  detail          : Array<ImemberDetail>
+}
+interface ImemberDetail{
+  classifyCode    : string
+  count           : number
+}
+// 新增用户 返回数据
+interface IResponseMemberInfo{
+  content        : Array<ImemberItem>
+  metaTs        ?: IMetaTs
+}
+
 /******************************** 顾客概要 end **************************/
 /******************************** 动态 action **************************/
 // 日动态
