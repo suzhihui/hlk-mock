@@ -1,6 +1,7 @@
 import { formatDays } from './../src/utils/index';
 import { ICustomer } from './../src/types/index.d';
 import faker from 'faker'
+import moment from 'moment';
 faker.locale = "zh_CN";
 let memberList:ICustomer[] = []
 
@@ -55,5 +56,8 @@ for(let i = 0; i < 12; i++) {
   console.log(_mon)
   _mon--
 }
+
+let res = faker.date.between(moment(Date.now()).subtract(1, 'month').format('YYYY-MM-DD'), new Date())
+console.log(res.getTime(), 'xxx', moment().subtract(1, 'month').format('x'))
 // console.log(dates, [...new Set(dList)])
 // '2'.padStart(0)

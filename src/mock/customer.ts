@@ -1,4 +1,4 @@
-import { IResponseAdvSearch, IAdvSearchItem } from './../types/customer.d';
+import { IResponseAdvSearch, IAdvSearchItem, ICustomerListItem } from './../types/customer.d';
 import { IActionDayItem, IActionDay, ICustomerItem, ICustomerInfo, IActionMonItem, IActionMon, IActionMonExt, IRequestActionAdd, IRequestActionUpdate } from './../types/index.d';
 // 顾客
 import { Response, Request } from 'express';
@@ -6,6 +6,7 @@ import faker from 'faker'
 import { ITypeCountItem } from 'src/types';
 import { getDayStr, compare, filterArr } from './../utils';
 import { IclassItems, IClasses, IMetaTs, IActionTodo } from 'src/types/customer';
+import moment from 'moment'
 faker.locale = "zh_CN"
 
 // 顾客概要数据
@@ -93,7 +94,7 @@ const metaTs:IMetaTs = {
   config: faker.random.number(18)
 }
 // 顾客概要统计
-export const getCustomer = (req: Request, res: Response) => {
+export const getSummary = (req: Request, res: Response) => {
 
   return res.json({
     code: 200,
@@ -109,6 +110,43 @@ export const getNewCustomer = (req: Request, res: Response) =>
     code: 200,
     content: num || num++
   })
+
+const custromerList:Array<ICustomerListItem> = []
+const custromerListCount:number = 100
+const oneday:number = 1000 * 3600 * 24
+for(let i = 0; i < custromerListCount; i++) {
+  custromerList.push({
+    id: 1000 + i,
+    customerName: faker.name.findName('','',3),
+    property: 'D2020' + faker.random.number(5),
+    customerNo: 'D2020' + faker.random.number(5),
+    customerTag: faker.name.firstName(1).toString(),
+    mobile:faker.phone.phoneNumberFormat(11).toString(),
+    gender: faker.random.arrayElement(['S', 'M']),
+    shopName: faker.random.arrayElement(['慧来客云谷一店', '慧来客云谷二店']),
+    consumeTotal: faker.random.number(998) || 998,
+    consumeTimes: faker.random.number(99) || 1,
+    lastServiceTime: faker.date.between(moment(Date.now()).subtract(1, 'month').format('YYYY-MM-DD'), new Date()).getTime().toString(),
+    firstConsumeTime: faker.date.between(moment(Date.now()).subtract(1, 'month').format('YYYY-MM-DD'), new Date()).getTime().toString()
+  })
+}
+export const getCustomer = (req: Request, res: Response) =>  {
+  const {
+    pageNum:page,
+    pageSize:limit,
+    sort
+  } = req.query
+  console.log(page, limit, 'xxxx')
+  const pageList =  custromerList.filter((_, i) => i < limit * page && i >= limit * (page - 1))
+ 
+  res.json({
+    code: 'SUCCESS',	
+    message: '',	
+    success: true,
+    content: pageList,
+    total: custromerListCount
+  })
+}
 
 // 顾客动态
 // mock data

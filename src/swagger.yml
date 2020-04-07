@@ -20,13 +20,13 @@ tags:
   - name: users
     description: Users related api.
 paths:
-  /customer/{merchantId}/customer:
+  /customer/{merchantId}/summary:
     get:
       tags: 
         - customer
       summary: 顾客概要
       description: 顾客概要
-      operationId: getCustomer
+      operationId: getSummary
       parameters:
         - name: merchantId
           in: path
@@ -68,7 +68,25 @@ paths:
         description: ok
         content:
           application/json:
-       
+  
+  /customer/{merchantId}/customer:
+    get:
+      tags:
+        -customer: 顾客查询
+      operationId: getCustomer
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+        - name: shopId
+          in: query
+          description: 门店Id
+      responses:
+        description: ok
+        content:
+          application/json:
+  
   /customer/{merchantId}/action/dayList:
     get:
       tags:

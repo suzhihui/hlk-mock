@@ -23,6 +23,23 @@ interface ISummary {
   content: Array<IclassItems>
   metats: IMetaTs
 }
+
+// 顾客列表
+interface ICustomerListItem {
+  id: number, // id
+  customerName:	string	 // 姓名
+  customerTag:	string	 // 标签
+  mobile:	string	 // 手机号
+  customerNo:	string	 // 档案号
+  property:	string	 // 项目
+  gender:	string	 // 性别
+  shopName:	string	 // 所属门店
+  consumeTotal:	number	 // 现金总额
+  consumeTimes:	number	 // 购买次数
+  lastServiceTime:	string	 // 上次购买时间
+  firstConsumeTime:	string	 // 首次购买时间
+}
+
 // 动态
 interface IAction {
   icon            : string  // 图标
@@ -31,6 +48,7 @@ interface IAction {
   type            : string  // 类型
   remark          : string  // 备注
 }
+
 // 待办事项
 interface IActionTodo {
   customerId      : number
