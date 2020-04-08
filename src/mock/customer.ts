@@ -282,11 +282,7 @@ const metedata:any = {
 }
 // metadata
 export const getMetadata = (req: Request, res: Response) => {
-  res.json({
-    code: '0',
-    message: 'success',
-    content: metedata
-  })
+  res.json(metedata)
 }
 
 
