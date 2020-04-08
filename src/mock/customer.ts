@@ -289,80 +289,95 @@ export const getMetadata = (req: Request, res: Response) => {
 // 顾客概要数据
 const classItemCon:Array<IClasses> = [
   {
-    classifyType: '消费能力',
+    classifyTypeCode: 'STAGE',
     detail:[
       {
-        id: 1,
         count: 28,
-        classifyCode: 'C',
-        color: '#D5874E'
+        classifyCode: 'MEMBER',
       },
       {
-        id: 2,
         count: 61,
-        classifyCode: 'B',
-        color: '#9AB3D7'
+        classifyCode: 'DANGER',
       },
       {
-        id: 3,
+        count: 31,
+        classifyCode: 'POTENTIAL',
+      },
+      {
+        count: 65,
+        classifyCode: 'TRIAL',
+       }
+    ]
+  },
+  {
+    classifyTypeCode: 'XFNL_5',
+    detail:[
+      {
+        count: 28,
+        classifyCode: 'BJK_11',
+      },
+      {
+        count: 61,
+        classifyCode: 'CJK_12',
+      },
+      {
         count: 309,
-        classifyCode: 'A',
-        color: '#FFAF0B'
-      }
+        classifyCode: 'DJK',
+       }
     ]
   },
   {
-    classifyType: '手动分类项目类别客',
+    classifyTypeCode: 'DK',
     detail:[
       {
-        id: 1,
+        
         count: 26,
-        classifyCode: '身',
-        color: '#71D187'
+        classifyCode: 'CJHY_5',
+        
       },
       {
-        id: 2,
+        
         count: 42,
-        classifyCode: '基',
-        color: '#FE6C6C'
+        classifyCode: 'ZJHY',
+        
       },
       {
-        id: 3,
+        
         count: 419,
-        classifyCode: '疗',
-        color: '#538FFF'
+        classifyCode: 'GJHY',
+        
       }
     ]
   },
-  {
-    classifyType: '手动分类项2',
-    detail:[
-      {
-        id: 1,
-        count: 4,
-        classifyCode: '大',
-        color: '#71D187'
-      },
-      {
-        id: 2,
-        count: 48,
-        classifyCode: '特',
-        color: '#FE6C6C'
-      },
-      {
-        id: 3,
-        count: 81,
-        classifyCode: '绝',
-        color: '#FFA76A'
-      },
-      {
-        id: 4,
-        count: 82,
-        classifyCode: '豪',
-        color: '#538FFF'
-      }
-    ]
-  },
+  // {
+  //   classifyTypeCode: '手动分类项2',
+  //   detail:[
+  //     {
+        
+  //       count: 4,
+  //       classifyCode: 'MEMBER',
+        
+  //     },
+  //     {
+        
+  //       count: 48,
+  //       classifyCode: 'DANGER',
+        
+  //     },
+  //     {
+        
+  //       count: 81,
+  //       classifyCode: '绝',
+        
+  //     },
+  //     {
+        
+  //       count: 82,
+  //       classifyCode: '豪',
+        
+  //     }
+  //   ]
+  // },
 ]
 
 const metaTs:IMetaTs = {

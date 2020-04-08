@@ -10,18 +10,16 @@ interface IMetaTs {
   config          : number
 }
 interface IclassItems {
-  id              : number
-  classifyCode    : string
-  count           : number
-  color           : string
+  classifyCode    : string    // 会员分类编码
+  count           : number    // 数量
 }
 interface IClasses {
-  classifyType    : string
-  detail          : Array<IclassItems>
+  classifyTypeCode    : string  // 会员维度编码
+  detail              : Array<IclassItems>
 }
 
 interface ISummary {
-  content: Array<IclassItems>
+  content: Array<IClasses>
   metats: IMetaTs
 }
 
