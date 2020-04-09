@@ -15,80 +15,104 @@ const metedata:any = {
   "metaTs": null,
   "success": true,
   "content": {
-     "classify": [
+    "classify": [
         {
-           "code": "POTENTIAL",
-           "typeCode": "STAGE",
-           "name": "潜在客",
-           "type": "DEFAULT"
+          "code": "POTENTIAL",
+          "typeCode": "STAGE",
+          "name": "潜在客",
+          "shortName": "潜",
+          "color": "#71D187",
+          "type": "DEFAULT"
         },
         {
-           "code": "TRIAL",
-           "typeCode": "STAGE",
-           "name": "体验客",
-           "type": "DEFAULT"
+          "code": "TRIAL",
+          "typeCode": "STAGE",
+          "name": "体验客",
+          "shortName": "体",
+          "color": "#FFA76A",
+          "type": "DEFAULT"
         },
         {
-           "code": "MEMBER",
-           "typeCode": "STAGE",
-           "name": "会员",
-           "type": "DEFAULT"
+          "code": "MEMBER",
+          "typeCode": "STAGE",
+          "name": "会员",
+          "shortName": "会",
+          "color": "#FE6C6C",
+          "type": "DEFAULT"
         },
         {
-           "code": "DANGER",
-           "typeCode": "STAGE",
-           "name": "临时会员",
-           "type": "DEFAULT"
+          "code": "DANGER",
+          "typeCode": "STAGE",
+          "name": "临时会员",
+          "shortName": "临",
+          "color": "#538FFF",
+          "type": "DEFAULT"
         },
         {
-           "code": "BJK_3",
-           "typeCode": "XFNL",
-           "name": "B级客",
-           "type": "AUTO"
+          "code": "BJK_3",
+          "typeCode": "XFNL",
+          "name": "B级客",
+          "shortName": "B",
+          "color": "#5656",
+          "type": "AUTO"
         },
         {
-           "code": "CJHY_5",
-           "typeCode": "DK",
-           "name": "初级会员",
-           "type": "MANUAL"
+          "code": "CJHY_5",
+          "typeCode": "DK",
+          "name": "初级会员",
+          "shortName": "初",
+          "color": "#FE6C6C",
+          "type": "MANUAL"
         },
         {
-           "code": "ZJHY",
-           "typeCode": "DK",
-           "name": "中级会员",
-           "type": "MANUAL"
+          "code": "ZJHY",
+          "typeCode": "DK",
+          "name": "中级会员",
+          "shortName": "中",
+          "color": "#F8E71C",
+          "type": "MANUAL"
         },
         {
-           "code": "AJK_10",
-           "typeCode": "XFNL_5",
-           "name": "A级客",
-           "type": "AUTO"
+          "code": "AJK_10",
+          "typeCode": "XFNL_5",
+          "name": "A级客",
+          "shortName": "A",
+          "color": "#F5A623",
+          "type": "AUTO"
         },
         {
-           "code": "BJK_11",
-           "typeCode": "XFNL_5",
-           "name": "B级客",
-           "type": "AUTO"
+          "code": "BJK_11",
+          "typeCode": "XFNL_5",
+          "name": "B级客",
+          "shortName": "B",
+          "color": "#8B572A",
+          "type": "AUTO"
         },
         {
-           "code": "CJK_12",
-           "typeCode": "XFNL_5",
-           "name": "C级客",
-           "type": "AUTO"
+          "code": "CJK_12",
+          "typeCode": "XFNL_5",
+          "name": "C级客",
+          "shortName": "C",
+          "color": "#7ED321",
+          "type": "AUTO"
         },
         {
-           "code": "DJK",
-           "typeCode": "XFNL_5",
-           "name": "D级客",
-           "type": "AUTO"
+          "code": "DJK",
+          "typeCode": "XFNL_5",
+          "name": "D级客",
+          "shortName": "D",
+          "color": "#BD10E0",
+          "type": "AUTO"
         },
         {
-           "code": "GJHY",
-           "typeCode": "DK",
-           "name": "高级会员",
-           "type": "MANUAL"
+          "code": "GJHY",
+          "typeCode": "DK",
+          "name": "高级会员",
+          "shortName": "高",
+          "color": "#50E3C2",
+          "type": "MANUAL"
         }
-     ],
+    ],
      "actionType": [
         {
            "code": "SERVICE",
