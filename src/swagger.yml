@@ -97,6 +97,23 @@ paths:
         description: ok
         content:
           application/json:
+  /customer/{merchantId}/todo:
+    get:
+      tags:
+        - customer: 待办事项查询
+      operationId: getToDoList
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+        - name: shopId
+          in: query
+          description: 门店Id
+      responses:
+        description: ok
+        content:
+          application/json:
   
   /customer/{merchantId}/customer:
     get:

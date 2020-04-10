@@ -88,6 +88,19 @@ interface IResponseMemberInfo{
   metaTs        ?: IMetaTs
 }
 
+// 待办事项
+interface IResponseStayActions {
+  customerId:	number	   // 顾客id	
+  name:	string	   // 顾客名称	
+  // stage:	number	   // 会员阶段	
+  classifyCode:	string	   // 会员维度code	
+  classifySubCode:	string	   // 会员第二维度code	
+  classifyThdCode:	string	   // 会员第三维度code	
+  actionId:	string	   // 事项Id	
+  actionType:	string	   // 事项类型	
+  remark:	string	   // 备注
+}
+
 /******************************** 顾客概要 end **************************/
 /******************************** 动态 action **************************/
 // 日动态
