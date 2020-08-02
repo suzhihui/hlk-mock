@@ -35,7 +35,7 @@ function getAttendanceList(dayCount):Array<IAttendanceRecord> {
     let res:Array<IAttendanceRecord> = []
     for(let i = 0; i<dayCount; i++) {
         // console.log(queryMonthDate,'=====================')
-        let workDate = queryMonthDate.add(dayCount, 'day').valueOf()
+        let workDate = queryMonthDate.add(i, 'd').valueOf()
         res.push({
             id: 1000+i,
             merchantId: 81,
@@ -44,7 +44,7 @@ function getAttendanceList(dayCount):Array<IAttendanceRecord> {
             workDate: workDate,
             goWorkTime: faker.random.arrayElement(['09:'+faker.random.number({min:10, max: 30}), '09:'+faker.random.number({min:31,max:59})]),
             outWorkTime: faker.random.arrayElement(['18:30', '19:'+faker.random.number({min:10, max: 59})]),
-            scheduleShiftId: 2000+i,
+            scheduleShiftId: faker.random.arrayElement([1, 2, 3]),
             status: faker.random.arrayElement(['normal', 'exception']),
             workStatus: faker.random.arrayElement(['normal', 'late', 'early', 'lateEarly']),
             remark: faker.name.firstName(3)+'的备注',
