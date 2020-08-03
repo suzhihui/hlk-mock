@@ -33,9 +33,10 @@ for(let i = 0; i<attendanceCount; i++) {
  */
 function getAttendanceList(dayCount):Array<IAttendanceRecord> {
     let res:Array<IAttendanceRecord> = []
+    // console.log(curDate.format('YYYY-MM-DD'),'=====================', dayCount)
     for(let i = 0; i<dayCount; i++) {
-        // console.log(queryMonthDate,'=====================')
-        let workDate = queryMonthDate.add(i, 'd').valueOf()
+        const _firstDay = queryMonthDate.format('YYYY-MM-DD')
+        let workDate = moment(_firstDay).add(i, 'd').valueOf()
         res.push({
             id: 1000+i,
             merchantId: 81,
@@ -69,6 +70,7 @@ export const getAtteList = (req: Request, res: Response) => {
         pageNum: page,
         pageSize: limit,
     } = req.query
+    // 请求参数
     if(year && month) {
         queryMonthDate = moment(`${year}-${month}-01`)
         // 请求的月份有多少天
