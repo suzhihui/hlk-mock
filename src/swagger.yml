@@ -309,6 +309,15 @@ paths:
           in: path
           required: true
           description: 商户id
+  /attendance/{merchantId}/attendance_person:
+    get:
+      summary: 获取所有员工考勤
+      operationId: getAttePerson
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
   /articles:
     get:
       tags:

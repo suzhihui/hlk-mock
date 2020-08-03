@@ -45,13 +45,13 @@ function getAttendanceList(dayCount):Array<IAttendanceRecord> {
             workDate: workDate,
             goWorkTime: faker.random.arrayElement(['09:'+faker.random.number({min:10, max: 30}), '09:'+faker.random.number({min:31,max:59})]),
             outWorkTime: faker.random.arrayElement(['18:30', '19:'+faker.random.number({min:10, max: 59})]),
-            scheduleShiftId: faker.random.arrayElement([1, 2, 3]),
+            scheduleShiftId: faker.random.arrayElement([0, 1, 2, 3]),
             status: faker.random.arrayElement(['normal', 'exception']),
-            workStatus: faker.random.arrayElement(['normal', 'late', 'early', 'lateEarly']),
+            workStatus: faker.random.arrayElement(['normal', 'late', 'early', 'lateEarly', 'noWork']),
             remark: faker.name.firstName(3)+'的备注',
             createTs: workDate,
             lastUpdateTs: workDate,
-            lastUpdateUser: '老苏'
+            lastUpdateUser: '老苏',
         })
     }
     return res
@@ -91,4 +91,46 @@ export const getAtteList = (req: Request, res: Response) => {
             message: '请传入年份和月份'
         })
     }
+}
+
+// 获取个人考勤列表
+export const getAttePerson = (req: Request, res: Response) => {
+    const {
+        startTime,
+        endTime,
+        userId,
+    } = req.query
+    // 找到当前员工
+    const _user = attendanceList.filter(item => item.userInfo.userId == userId)
+    let user = null
+    if(_user.length) {
+        user = _user[0]
+    } else {
+        res.json({
+            code: 'FIAL',
+            message: '当前员工不存在!'
+        })
+    }
+    if(startTime>0&&endTime>0) {
+
+    } else {
+        res.json({
+            code: 'FIAL',
+            message: '请求参数不合法!'
+        })
+    }
+    console.log('startTime', startTime, 'endTime', endTime)
+    queryMonthDate = moment(Number(startTime))
+    let eTime = moment(Number(endTime))
+    let diff =  eTime.diff(queryMonthDate, 'days')
+    console.log(diff, 'diff')
+    user.list = getAttendanceList(diff)
+    res.json({
+        code: 'SUCCESS',
+        message: '操作成功',
+        content: user,
+        total: diff
+    })
+    // 返回时间段内的考勤
+    
 }
