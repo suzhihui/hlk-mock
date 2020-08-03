@@ -111,9 +111,7 @@ export const getAttePerson = (req: Request, res: Response) => {
             message: '当前员工不存在!'
         })
     }
-    if(startTime>0&&endTime>0) {
-
-    } else {
+    if(!startTime||!endTime) {
         res.json({
             code: 'FIAL',
             message: '请求参数不合法!'
