@@ -24,6 +24,8 @@ for(let i = 0; i<attendanceCount; i++) {
         userInfo: {
             userId: 1000+i,
             userName: '老'+faker.name.firstName(3),
+            avatar: '',
+            gender: faker.random.arrayElement(['F', 'M'])
         },
         list: []
     })
@@ -131,4 +133,13 @@ export const getAttePerson = (req: Request, res: Response) => {
     })
     // 返回时间段内的考勤
     
+}
+// 获取所有员工
+export const getAtteAll = (req: Request, res: Response) => {
+    let users = attendanceList.map(item => item.userInfo)
+    res.json({
+        code: 'SUCCESS',
+        message: '操作成功',
+        content: users
+    })
 }

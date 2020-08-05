@@ -21,9 +21,12 @@ export interface IAttendanceRecord{
 interface IUserInfo{
     userId                  :number     // 员工ID
     userName                :string     // 员工名称
+    avatar                  :string     // 员工头像
+    gender                  :string     // 员工性别
 }
 // 考勤列表
 export interface IAttendanceList{
     list     :Array<IAttendanceRecord>
     userInfo :IUserInfo
+
 }
