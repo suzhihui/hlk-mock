@@ -327,6 +327,22 @@ paths:
           in: path
           required: true
           description: 商户id
+  /attendance/{merchantId}/config:
+    get:
+      summary: 获取门店班次设置
+      operationId: queryConfig
+      parameters: 
+        - name: shopId
+          in: query
+          description: 门店id
+    post:
+      summary: 添加班次设置
+      operationId: addConfig
+    #   parameters:
+    #     - name: configs
+    #     in: body
+    #     description: 班次列表   
+    
   /articles:
     get:
       tags:

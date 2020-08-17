@@ -28,5 +28,16 @@ interface IUserInfo{
 export interface IAttendanceList{
     list     :Array<IAttendanceRecord>
     userInfo :IUserInfo
+}
 
+// 班次列表
+export interface IClassList{
+    id:number, // 主键
+    merchantId: number,
+    shopId:number,
+    name: string,
+    shortName: string,
+    checkInTime: string,
+    checkOutTime: string,
+    status: string, // 状态 NORMAL; DELETED
 }

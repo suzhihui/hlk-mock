@@ -1,4 +1,4 @@
-import { IAttendanceRecord } from './../types/attendance';
+import { IAttendanceRecord, IClassList } from './../types/attendance';
 // 考勤相关api
 import { Response, Request } from 'express';
 
@@ -30,6 +30,9 @@ for(let i = 0; i<attendanceCount; i++) {
         list: []
     })
 }
+
+let classList:Array<IClassList> = []
+
 /**
  * @param {number} dayCount 月份的天数
  */
@@ -141,5 +144,47 @@ export const getAtteAll = (req: Request, res: Response) => {
         code: 'SUCCESS',
         message: '操作成功',
         content: users
+    })
+}
+// 添加班次设置
+export const addConfig=(req: Request, res: Response) => {
+    const {configList} = req.body
+    let _count = classList.length
+    if(configList.length) {
+        configList.forEach((item, i) => {
+            classList.push({
+                id: _count+i,
+                name: item.name,
+                shopId: 103,
+                checkInTime: item.checkInTime,
+                checkOutTime: item.checkOutTime,
+                merchantId: 288880,
+                status: faker.random.arrayElement(['NORMAL', 'DELETED']),
+                shortName: item.name.substring(0,1)
+            })
+        })
+        res.json({
+            code: 'SUCCESS',
+            message: '操作成功'
+        })
+    }
+    else {
+        res.json({
+            code: 'FIAL',
+            message: '请求参数不合法!'
+        })
+    }
+}
+// 获取门店班次设置
+export const queryConfig=(req: Request, res: Response) => {
+    const {shopId} = req.query
+    let code:string = 'SUCCESS'
+    let message:string = '操作成功'
+    console.log('classList', classList);
+    let _list = classList?classList.filter(item => item.shopId == shopId):classList
+    res.json({
+        code,
+        message,
+        content: _list
     })
 }
