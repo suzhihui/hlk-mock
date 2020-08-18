@@ -327,7 +327,16 @@ paths:
           in: path
           required: true
           description: 商户id
-  /attendance/{merchantId}/config:
+  /attendance/{merchantId}/attendance_record:
+    get:
+      summary: 获取门店所有员工/指定员工 排班和考勤记录
+      operationId: attendanceRecord
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
+  /attendance/{merchantId}/shift_config:
     get:
       summary: 获取门店班次设置
       operationId: queryConfig
@@ -338,6 +347,14 @@ paths:
     post:
       summary: 添加班次设置
       operationId: addConfig
+  /attendance/{merchantId}/shift_config/{id}:
+    delete:
+        summary: 删除班次设置
+        operationId: deleteConfig
+        parameters:
+            - name: id
+                in: path
+                required: true
     #   parameters:
     #     - name: configs
     #     in: body

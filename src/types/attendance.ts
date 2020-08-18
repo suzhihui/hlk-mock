@@ -1,3 +1,4 @@
+import { IAttendanceRecord } from './attendance';
 // 考勤表
 export interface IAttendanceRecord{
     id                      :number     // 考勤ID
@@ -40,4 +41,49 @@ export interface IClassList{
     checkInTime: string,
     checkOutTime: string,
     status: string, // 状态 NORMAL; DELETED
+}
+
+export interface IAttendRecord{
+    userId  : number,
+    userName: string,
+    userNo  : string,    // 员工编号/工号
+    schedules?:Array<ISchedules>, // 排班
+    attendanceRecords: Array<ISchedules>, // 考勤
+    summary?:Array<ISummary>
+}
+// 排班
+export interface ISchedules{
+    id          : number,
+    merchantId  : number,
+    shopId      : number,
+    userId      : number,
+    shiftId     : number,  // 排班班次
+    shift       : string,  // 班次快照
+    shiftDate   : number,  // 排班日期
+    field_22    : string,  // 类型： NORMAL
+}
+// 考勤
+export interface IAttendanceRecords{
+    id              : number, 
+    merchantId      : number,
+    shopId          : number,
+    userId          : number,
+    userName        : string,  // 员工名称
+    checkDate       : number,  // 打卡工作日期
+    checkInTime     : number,  // 上班打卡时间
+    checkOutTime    : number,  // 下班打卡时间
+    shiftId         : string,  // 排班班次
+    shift           : string,  // 班次快照
+    status          : string,  // 状态  NORMAL：正常EXCEPTION：异常 ABSENCE:缺勤
+    checkStatus     : string,  // 工作状态 NORMAL：正常LATE：迟到EARLY：早退LATE_EARLY：迟到早退
+    remark          : string,  // 备注
+}
+
+export interface ISummary{
+    normal      : number, // 统计合计
+    late        : number,  // 正常
+    early       : number,  // 迟到
+    absence     : number,  // 缺勤
+    exception   : number,  // 异常
+    leave       : number,  // 休假
 }

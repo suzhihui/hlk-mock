@@ -1,4 +1,4 @@
-import { IAttendanceRecord, IClassList } from './../types/attendance';
+import { IAttendanceRecord, IClassList, IAttendRecord } from './../types/attendance';
 // 考勤相关api
 import { Response, Request } from 'express';
 
@@ -146,6 +146,42 @@ export const getAtteAll = (req: Request, res: Response) => {
         content: users
     })
 }
+
+//  *********************************  yapi 接口mock *************************************/
+const attendanceMap:Array<IAttendRecord> = []
+const recordCount: number = 100 //100个员工
+for (let i = 0; i < recordCount; i++) {
+    attendanceMap.push({
+        userId: 1000 + i,
+        userName: '老'+faker.name.firstName(1).toString(),
+        userNo: (1000 + i).toString(),
+        attendanceRecords: null
+    })
+}
+// 获取门店所有员工/指定员工 排班和考勤记录
+export const attendanceRecord = (req: Request, res: Response) => {
+    const {
+        shopId,
+        userId, 
+        startTime,   // 开始时间 时间戳
+        endTime,     // 结束时间 时间戳
+        calculated,  // 是否统计
+        scheduled,   // 是否获取排班
+        pageNum: page,
+        pageSize: limit,
+    } = req.query
+
+    const pageList = attendanceMap.filter((_, i) => i < limit * page && i >= limit * (page - 1))
+    console.log(page, limit, 'xxxx')
+    console.log(pageList, '---', attendanceMap.length)
+    res.json({
+        code: 'SUCCESS',
+        message: '操作成功',
+        content: pageList,
+        total: recordCount
+    })
+}
+
 // 添加班次设置
 export const addConfig=(req: Request, res: Response) => {
     const {configList} = req.body
@@ -153,7 +189,7 @@ export const addConfig=(req: Request, res: Response) => {
     if(configList.length) {
         configList.forEach((item, i) => {
             classList.push({
-                id: _count+i,
+                id: _count+i+1,
                 name: item.name,
                 shopId: 103,
                 checkInTime: item.checkInTime,
@@ -187,4 +223,26 @@ export const queryConfig=(req: Request, res: Response) => {
         message,
         content: _list
     })
+}
+// 获取门店班次设置
+export const deleteConfig=(req: Request, res: Response) => {
+    const { id }:any = req.params
+    let code:string = 'SUCCESS'
+    let message: string = '操作成功'
+    console.log(id, ' -----', req.params)
+    let _index = classList.findIndex(item => item.id == id)
+    let _dObj = null
+    if (_index > -1) {
+        _dObj = classList.splice(_index,1)
+        res.json({
+            code,
+            message,
+            content: _dObj
+        })
+    } else {
+        res.json({
+            code: 'FIAL',
+            message: '传参无效'
+        })
+    }
 }
