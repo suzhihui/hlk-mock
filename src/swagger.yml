@@ -336,6 +336,34 @@ paths:
           in: path
           required: true
           description: 商户id
+    post:
+        summary: 考勤打卡
+        operationId: addRecord
+        parameters:
+            - name: shopId
+              in: body
+              required: true
+            - name: checkTime
+              in: body
+              required: true
+              description: 打卡 二维码时间戳
+            - name: appCheckSn
+              in: body
+              required: true
+              description: APP 考勤序列号
+  /attendance/{merchantId}/attendance_record/{id}:
+    patch:
+        summary: 修改考勤记录
+        operationId: modifyRecord
+            - name: shiftId
+                in: body
+            - name: checkInTime
+                in: body
+            - name: checkOutTime
+                in: body
+            - name: shift
+                in: body
+
   /attendance/{merchantId}/shift_config:
     get:
       summary: 获取门店班次设置
@@ -353,8 +381,16 @@ paths:
         operationId: deleteConfig
         parameters:
             - name: id
-                in: path
-                required: true
+              in: path
+              required: true
+  /attendance/{merchantId}/shift_schedule:
+    get:
+        summary: 保存/修改员工排班设置
+        operationId: modifyShift
+        parameters:
+            - name: id
+              in: path
+              required: true
     #   parameters:
     #     - name: configs
     #     in: body

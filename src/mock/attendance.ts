@@ -158,7 +158,7 @@ for (let i = 0; i < recordCount; i++) {
         attendanceRecords: null
     })
 }
-// 获取门店所有员工/指定员工 排班和考勤记录
+// TODO　获取门店所有员工/指定员工 排班和考勤记录
 export const attendanceRecord = (req: Request, res: Response) => {
     const {
         shopId,
@@ -248,4 +248,28 @@ export const deleteConfig=(req: Request, res: Response) => {
             message: '传参无效'
         })
     }
+}
+// todo 保存/修改员工排班设置
+export const modifyShift=(req: Request, res: Response) => {
+    const { shifts } = req.body
+    if (shifts && shifts.length) {
+        // 1：userId 找到对应的员工
+        // 2: shfitId和shift没传则删除， 反之修改
+        // 3: 
+    } else {
+        res.json({
+            code: 'FIAL',
+            message: '传参无效'
+        })
+    }
+}
+
+// todo 考勤打卡
+export const addRecord = (req: Request, res: Response) => {
+
+}
+
+// todo 修改考勤记录
+export const modifyRecord = (req: Request, res: Response) => {
+
 }
