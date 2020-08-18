@@ -195,7 +195,8 @@ export const addConfig=(req: Request, res: Response) => {
                 checkInTime: item.checkInTime,
                 checkOutTime: item.checkOutTime,
                 merchantId: 288880,
-                status: faker.random.arrayElement(['NORMAL', 'DELETED']),
+                // status: faker.random.arrayElement(['NORMAL', 'DELETED']),
+                status: faker.random.arrayElement(['NORMAL']),
                 shortName: item.name.substring(0,1)
             })
         })
@@ -233,7 +234,9 @@ export const deleteConfig=(req: Request, res: Response) => {
     let _index = classList.findIndex(item => item.id == id)
     let _dObj = null
     if (_index > -1) {
-        _dObj = classList.splice(_index,1)
+        // _dObj = classList.splice(_index,1)
+        // 软删除
+        classList[_index]['status'] = 'DELETED'
         res.json({
             code,
             message,
