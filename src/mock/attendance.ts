@@ -1,4 +1,4 @@
-import { IAttendanceRecord, IClassList, IAttendRecord } from './../types/attendance';
+import { IAttendanceRecord, IClassList, IAttendRecord, ISchedules, IAttendanceRecords } from './../types/attendance';
 // 考勤相关api
 import { Response, Request } from 'express';
 
@@ -151,12 +151,37 @@ export const getAtteAll = (req: Request, res: Response) => {
 const attendanceMap:Array<IAttendRecord> = []
 const recordCount: number = 100 //100个员工
 for (let i = 0; i < recordCount; i++) {
+    const uId = 1000 + i
+    const uName = '老'+faker.name.firstName(1).toString()
+    const uNo = (1000 + i).toString()
     attendanceMap.push({
-        userId: 1000 + i,
-        userName: '老'+faker.name.firstName(1).toString(),
-        userNo: (1000 + i).toString(),
-        attendanceRecords: null
+        userId: uId,
+        userName: uName,
+        userNo: uNo,
+        attendanceRecords: _getAttendancedList(uId, uName, uNo, i)
     })
+}
+// 加三条历史数据
+function _getAttendancedList(...arg):Array<IAttendanceRecords> {
+    let res:Array<IAttendanceRecords> = []
+    if(arg[0] < 1003) {
+        res.push({
+            id: 2000+arg[3],
+            merchantId: 288880,
+            shopId: 103,
+            userName: arg[1],
+            checkDate: Date.now(),
+            checkInTime: Date.now() + (3600 * 8),
+            checkOutTime: Date.now(),
+            userId: arg[0],
+            shiftId: faker.random.arrayElement(['1', '2', '3']),
+            shift: arg[1]+'的班次快照',
+            status: faker.random.arrayElement(['NORMAL', 'XCEPTION', 'ABSENCE']),
+            checkStatus: faker.random.arrayElement(['NORMAL', 'LATE', 'EARLY', 'LATE_EARLY']),
+            remark: arg[1]+'的备注'
+        })
+    }
+    return res
 }
 // TODO　获取门店所有员工/指定员工 排班和考勤记录
 export const attendanceRecord = (req: Request, res: Response) => {
@@ -170,8 +195,17 @@ export const attendanceRecord = (req: Request, res: Response) => {
         pageNum: page,
         pageSize: limit,
     } = req.query
+    let pageList:any[] = []
+    // 1) 有分页
+    if(page&&limit) {
+        pageList = attendanceMap.filter((_, i) => i < limit * page && i >= limit * (page - 1))
+    }
+    // 2) 要获取排班
 
-    const pageList = attendanceMap.filter((_, i) => i < limit * page && i >= limit * (page - 1))
+    // 3）要获取统计
+
+    // 4) 只获取考勤
+    pageList = attendanceMap.filter(item => item.attendanceRecords && item.attendanceRecords.length)
     console.log(page, limit, 'xxxx')
     console.log(pageList, '---', attendanceMap.length)
     res.json({

@@ -48,7 +48,7 @@ export interface IAttendRecord{
     userName: string,
     userNo  : string,    // 员工编号/工号
     schedules?:Array<ISchedules>, // 排班
-    attendanceRecords: Array<ISchedules>, // 考勤
+    attendanceRecords: Array<IAttendanceRecords>, // 考勤
     summary?:Array<ISummary>
 }
 // 排班
@@ -60,7 +60,7 @@ export interface ISchedules{
     shiftId     : number,  // 排班班次
     shift       : string,  // 班次快照
     shiftDate   : number,  // 排班日期
-    field_22    : string,  // 类型： NORMAL
+    type        : string,  // 类型： NORMAL VOCATION：休假
 }
 // 考勤
 export interface IAttendanceRecords{
