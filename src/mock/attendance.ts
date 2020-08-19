@@ -158,8 +158,16 @@ for (let i = 0; i < recordCount; i++) {
         userId: uId,
         userName: uName,
         userNo: uNo,
-        attendanceRecords: _getAttendancedList(uId, uName, uNo, i)
+        attendanceRecords: _getAttendancedList(uId, uName, uNo, i),
+        schedules: _getSchedulesList(uId, uName, uNo, i)
     })
+}
+function _getSchedulesList(...arg): Array<ISchedules> {
+    let res: Array<ISchedules> = []
+    if (arg[0] < 1003) {
+        
+    }
+    return res
 }
 // 加三条历史数据
 function _getAttendancedList(...arg):Array<IAttendanceRecords> {
@@ -186,6 +194,8 @@ function _getAttendancedList(...arg):Array<IAttendanceRecords> {
     }
     return res
 }
+// 动态加排班信息
+function addSchedules() {}
 // TODO　获取门店所有员工/指定员工 排班和考勤记录
 export const attendanceRecord = (req: Request, res: Response) => {
     const {
@@ -198,17 +208,19 @@ export const attendanceRecord = (req: Request, res: Response) => {
         pageNum: page,
         pageSize: limit,
     } = req.query
-    let pageList:any[] = []
+    let pageList: any[] = []
+    pageList = attendanceMap
     // 1) 有分页
     if(page&&limit) {
         pageList = attendanceMap.filter((_, i) => i < limit * page && i >= limit * (page - 1))
     }
     // 2) 要获取排班
-
+    if (scheduled) {
+    }
     // 3）要获取统计
-
+    if (calculated) {}
     // 4) 只获取考勤
-    pageList = attendanceMap.filter(item => item.attendanceRecords && item.attendanceRecords.length)
+    // pageList = attendanceMap.filter(item => item.attendanceRecords && item.attendanceRecords.length)
     console.log(page, limit, 'xxxx')
     console.log(pageList, '---', attendanceMap.length)
     res.json({
