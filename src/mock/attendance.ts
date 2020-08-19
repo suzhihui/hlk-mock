@@ -164,18 +164,21 @@ for (let i = 0; i < recordCount; i++) {
 // 加三条历史数据
 function _getAttendancedList(...arg):Array<IAttendanceRecords> {
     let res:Array<IAttendanceRecords> = []
-    if(arg[0] < 1003) {
+    if (arg[0] < 1003) {
+        let checkInTime = Date.now() + (3600 * 8)
+        let checkOutTime = Date.now()
+        let shift = JSON.stringify({ name: '早班', shortName: '早', checkInTime, checkOutTime })
         res.push({
             id: 2000+arg[3],
             merchantId: 288880,
             shopId: 103,
             userName: arg[1],
             checkDate: Date.now(),
-            checkInTime: Date.now() + (3600 * 8),
-            checkOutTime: Date.now(),
+            checkInTime,
+            checkOutTime,
             userId: arg[0],
-            shiftId: faker.random.arrayElement(['1', '2', '3']),
-            shift: arg[1]+'的班次快照',
+            shiftId: 2000+arg[3], 
+            shift,
             status: faker.random.arrayElement(['NORMAL', 'XCEPTION', 'ABSENCE']),
             checkStatus: faker.random.arrayElement(['NORMAL', 'LATE', 'EARLY', 'LATE_EARLY']),
             remark: arg[1]+'的备注'
