@@ -267,11 +267,11 @@ export const queryConfig=(req: Request, res: Response) => {
     let code:string = 'SUCCESS'
     let message:string = '操作成功'
     console.log('classList', classList);
-    let _list = classList?classList.filter(item => item.shopId == shopId):classList
+    // let _list = classList?classList.filter(item => item.shopId == shopId):classList
     res.json({
         code,
         message,
-        content: _list
+        content: classList
     })
 }
 // 获取门店班次设置
