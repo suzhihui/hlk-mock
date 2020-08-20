@@ -162,14 +162,28 @@ for (let i = 0; i < recordCount; i++) {
         schedules: _getSchedulesList(uId, uName, uNo, i)
     })
 }
+// 加三条历史排班数据
 function _getSchedulesList(...arg): Array<ISchedules> {
     let res: Array<ISchedules> = []
+    let checkInTime = Date.now() + (3600 * 8)
+    let checkOutTime = Date.now()
+    let shift = JSON.stringify({ name: '早班', shortName: '早', checkInTime, checkOutTime })
+    
     if (arg[0] < 1003) {
-        
+        res.push({
+            id: 3000+arg[3],
+            merchantId: 288880,
+            shopId: 103,
+            userId: arg[0],
+            shiftId: 2000+arg[3], 
+            shift,
+            shiftDate: checkOutTime,
+            type: faker.random.arrayElement(['NORMAL', 'VOCATION'])
+        })
     }
     return res
 }
-// 加三条历史数据
+// 加三条历史考勤数据
 function _getAttendancedList(...arg):Array<IAttendanceRecords> {
     let res:Array<IAttendanceRecords> = []
     if (arg[0] < 1003) {
@@ -194,8 +208,6 @@ function _getAttendancedList(...arg):Array<IAttendanceRecords> {
     }
     return res
 }
-// 动态加排班信息
-function addSchedules() {}
 // TODO　获取门店所有员工/指定员工 排班和考勤记录
 export const attendanceRecord = (req: Request, res: Response) => {
     const {
