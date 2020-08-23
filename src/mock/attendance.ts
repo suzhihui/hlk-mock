@@ -159,7 +159,7 @@ for (let i = 0; i < recordCount; i++) {
         userName: uName,
         userNo: uNo,
         attendanceRecords: _getAttendancedList(uId, uName, uNo, i),
-        schedules: _getSchedulesList(uId, uName, uNo, i)
+        shiftSchedules: _getSchedulesList(uId, uName, uNo, i)
     })
 }
 // 加三条历史排班数据
@@ -258,7 +258,9 @@ export const addConfig=(req: Request, res: Response) => {
                 merchantId: 288880,
                 // status: faker.random.arrayElement(['NORMAL', 'DELETED']),
                 status: faker.random.arrayElement(['NORMAL']),
-                shortName: item.name.substring(0,1)
+                shortName: item.name.substring(0,1),
+                checkInTimeValue: item.checkInTimeValue,
+                checkOutTimeValue: item.checkOutTimeValue
             })
         })
         res.json({
@@ -312,11 +314,53 @@ export const deleteConfig=(req: Request, res: Response) => {
 }
 // todo 保存/修改员工排班设置
 export const modifyShift=(req: Request, res: Response) => {
-    const { shifts } = req.body
+    const shifts = req.body
     if (shifts && shifts.length) {
         // 1：userId 找到对应的员工
         // 2: shfitId和shift没传则删除， 反之修改
         // 3: 
+        // [
+        //     {
+        //         userId: 1000,
+        //         shiftDate: 1598630400000,
+        //         shopId: 345,
+        //         type: 'VOCATION'
+        //       }
+        // ]
+        console.log(req.body)
+        let shift = shifts[0]
+        let _uIds = shifts.map(item => item.userId)
+        let users = attendanceMap.filter(item => _uIds.includes(item.userId))
+        users.forEach(user => {
+            let _user:ISchedules = {
+                id: user.shiftSchedules&&user.shiftSchedules.length?user.shiftSchedules.length+1:3000,
+                merchantId: 288880,
+                shopId: shift['shopId'],
+                userId: user.userId,
+                shiftDate: shift['shiftDate']
+            }
+            if(shift['shiftId']) {
+                _user = {..._user, shiftId: shift['shiftId'], shift: JSON.stringify(shift['shift'])}
+            }
+            if(shift['type']) {
+                _user = {..._user, type: shift['type']}
+            }
+            // 修改排班
+            if(user.shiftSchedules.length) {
+                let _index = user.shiftSchedules.findIndex(item => item.id == _user.id)
+                if(_index>-1) {
+                    user.shiftSchedules.splice(_index, 1, _user)
+                } else user.shiftSchedules.push(_user)
+            }
+            // 新增排班
+            else {
+                user.shiftSchedules=[_user]
+            }
+        })
+        res.json({
+            code: 'SUCCESS',
+            message: '操作成功'
+        })
     } else {
         res.json({
             code: 'FIAL',

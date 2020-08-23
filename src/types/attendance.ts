@@ -38,18 +38,21 @@ export interface IClassList{
     shopId:number,
     name: string,
     shortName: string,
-    checkInTime: string,
-    checkOutTime: string,
+    checkInTime: number,
+    checkOutTime: number,
     status: string, // 状态 NORMAL; DELETED
+    checkInTimeValue: string // 上班时间 hh:mm 格式
+    checkOutTimeValue: string
 }
-
+// 排班与考勤记录
 export interface IAttendRecord{
-    userId  : number,
-    userName: string,
-    userNo  : string,    // 员工编号/工号
-    schedules?:Array<ISchedules>, // 排班
-    attendanceRecords: Array<IAttendanceRecords>, // 考勤
-    summary?:Array<ISummary>
+    userId              : number,
+    userName            : string,
+    userNo              : string,                        // 员工编号/工号
+    avatar              ?:string,                        // 头像
+    shiftSchedules      ?:Array<ISchedules>,             // 排班
+    attendanceRecords   : Array<IAttendanceRecords>,     // 考勤
+    summary             ?:Array<ISummary>
 }
 // 排班
 export interface ISchedules{
@@ -57,10 +60,10 @@ export interface ISchedules{
     merchantId  : number,
     shopId      : number,
     userId      : number,
-    shiftId     : number,  // 排班班次
-    shift       : string,  // 班次快照
+    shiftId     ?: number,  // 排班班次
+    shift       ?: string,  // 班次快照
     shiftDate   : number,  // 排班日期
-    type        : string,  // 类型： NORMAL VOCATION：休假
+    type        ?: string,  // 类型： NORMAL VOCATION：休假
 }
 // 考勤
 export interface IAttendanceRecords{
@@ -72,18 +75,18 @@ export interface IAttendanceRecords{
     checkDate       : number,  // 打卡工作日期
     checkInTime     : number,  // 上班打卡时间
     checkOutTime    : number,  // 下班打卡时间
-    shiftId         : string,  // 排班班次
+    shiftId         : number,  // 排班班次
     shift           : string,  // 班次快照
     status          : string,  // 状态  NORMAL：正常EXCEPTION：异常 ABSENCE:缺勤
     checkStatus     : string,  // 工作状态 NORMAL：正常LATE：迟到EARLY：早退LATE_EARLY：迟到早退
     remark          : string,  // 备注
 }
-
+// 统计合计
 export interface ISummary{
-    normal      : number, // 统计合计
-    late        : number,  // 正常
-    early       : number,  // 迟到
-    absence     : number,  // 缺勤
-    exception   : number,  // 异常
-    leave       : number,  // 休假
+    normalTimes      : number,  // 正常
+    lateTimes        : number,  // 迟到
+    earlyTimes       : number,  // 早退
+    absenceTimes     : number,  // 缺勤
+    exceptionTimes   : number,  // 异常
+    vacationTimes    : number,  // 休假
 }

@@ -384,7 +384,7 @@ paths:
               in: path
               required: true
   /attendance/{merchantId}/shift_schedule:
-    get:
+    post:
         summary: 保存/修改员工排班设置
         operationId: modifyShift
         parameters:
