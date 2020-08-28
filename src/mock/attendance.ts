@@ -226,6 +226,9 @@ export const attendanceRecord = (req: Request, res: Response) => {
     if(page&&limit) {
         pageList = attendanceMap.filter((_, i) => i < limit * page && i >= limit * (page - 1))
     }
+    if(userId) {
+        pageList = attendanceMap.filter(_ => _.userId == userId)
+    }
     // 2) 要获取排班
     if (scheduled) {
     }
