@@ -245,7 +245,7 @@ export const attendanceRecord = (req: Request, res: Response) => {
 
 // 添加班次设置
 export const addConfig=(req: Request, res: Response) => {
-    const {configList} = req.body
+    const configList = req.body
     let _count = classList.length
     if(configList.length) {
         configList.forEach((item, i) => {
