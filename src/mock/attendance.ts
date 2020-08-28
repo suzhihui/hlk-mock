@@ -6,6 +6,7 @@ import faker from 'faker'
 import moment from 'moment'
 import { IAttendanceList } from 'src/types/attendance';
 import { workerData } from 'worker_threads';
+import { cloneDeep } from 'lodash';
 faker.locale = 'zh_CN'
 
 /**
@@ -228,6 +229,8 @@ export const attendanceRecord = (req: Request, res: Response) => {
     }
     if(userId) {
         pageList = attendanceMap.filter(_ => _.userId == userId)
+        let cpList = cloneDeep(pageList)
+        pageList = getOnePerson(cpList, startTime, endTime, userId)
     }
     // 2) 要获取排班
     if (scheduled) {
@@ -245,10 +248,111 @@ export const attendanceRecord = (req: Request, res: Response) => {
         total: recordCount
     })
 }
+function getShiftPerson(sT, eT, uInfo) {
+    let sd = moment(sT).days()
+    let ed = moment(eT).days()
+    let dayCount = ed - sd
+    let res:Array<ISchedules> = []
 
+    for (let i = 0; i < dayCount; i++) {
+        let shiftId = faker.random.arrayElement([1,2,3])
+        let shiftNameMap:string[] = ['早', '中', '晚']
+        let checkInTime = Date.now() + (3600 * 8)
+        let checkOutTime = Date.now()
+        let shift
+        switch (shiftId) {
+            case 1:
+                shift = JSON.stringify({ name: shiftNameMap[shiftId-1]+'班', shortName: shiftNameMap[shiftId-1], checkInTime, checkOutTime })
+                break;
+            case 2:
+                shift = JSON.stringify({ name: shiftNameMap[shiftId-1]+'班', shortName: shiftNameMap[shiftId-1], checkInTime, checkOutTime })
+                break;
+            case 3:
+                shift = JSON.stringify({ name: shiftNameMap[shiftId-1]+'班', shortName: shiftNameMap[shiftId-1], checkInTime, checkOutTime })
+                break;
+            default:
+                break;
+        }
+        res.push({
+            id: 4000+ i,
+            merchantId: 288880,
+            shopId: 304,
+            userId: uInfo.userId,
+            shiftId,
+            shift,
+            shiftDate: moment(sT).add(dayCount, 'days').valueOf(),
+            type: faker.random.arrayElement(['NORMAL', 'VOCATION'])
+        })
+    }
+    return res
+}
+function getAttendPerson(sT, eT, uInfo) {
+    let sd = moment(sT)
+    let ed = moment(eT)
+    let dayCount = Math.ceil((eT-sT) / (1000*60*60*24))
+    console.log(dayCount, '-`````--', sT, eT)
+    let res:Array<IAttendanceRecords> = []
+    for (let index = 0; index < dayCount; index++) {
+        let shiftId = faker.random.arrayElement([1,2,3])
+        let shiftNameMap:string[] = ['早', '中', '晚']
+        let checkInTime = Date.now() + (3600 * 8)
+        let checkOutTime = Date.now()
+        let shift
+        switch (shiftId) {
+            case 1:
+                shift = JSON.stringify({ name: shiftNameMap[shiftId-1]+'班', shortName: shiftNameMap[shiftId-1], checkInTime, checkOutTime })
+                break;
+            case 2:
+                shift = JSON.stringify({ name: shiftNameMap[shiftId-1]+'班', shortName: shiftNameMap[shiftId-1], checkInTime, checkOutTime })
+                break;
+            case 3:
+                shift = JSON.stringify({ name: shiftNameMap[shiftId-1]+'班', shortName: shiftNameMap[shiftId-1], checkInTime, checkOutTime })
+                break;
+            default:
+                break;
+        }
+        res.push({
+            id: 5000+index,
+            merchantId: 288880,
+            shopId: 304,
+            userId: uInfo.userId,
+            userName: uInfo.userName,
+            checkDate: moment(sT).add(dayCount, 'days').valueOf(),
+            checkInTime,
+            checkOutTime,
+            shiftId,
+            shift,
+            status: faker.random.arrayElement(['NORMAL', 'EXCEPTION', 'ABSENCE']),
+            checkStatus: faker.random.arrayElement(['NORMAL', 'LATE', 'EARLY', 'LATE_EARLY']),
+            remark: `${uInfo.userName}${ moment(sT).format('YYYY-MM-DD')}的考勤备注`
+        })
+        
+    }
+    return res
+}
+function getOnePerson(list:Array<IAttendRecord> = [], sT:number, eT:number, userId){
+    if(list.length){
+        list.forEach((item) => {
+            item.shiftSchedules = getShiftPerson(sT,eT, item)
+            item.attendanceRecords = getAttendPerson(sT, eT, item)
+        })
+    } else {
+        const userName = '老'+faker.name.firstName(1).toString()
+        const userNo = userId.toString()
+        let _item = {userId, userName, userNo}
+        list.push({
+            userId,
+            userNo,
+            userName,
+            shiftSchedules: [],
+            attendanceRecords: getAttendPerson(sT, eT, _item)
+        })
+    }
+    return list
+}
 // 添加班次设置
 export const addConfig=(req: Request, res: Response) => {
-    const {configList} = req.body
+    const configList = req.body
     let _count = classList.length
     if(configList.length) {
         configList.forEach((item, i) => {
