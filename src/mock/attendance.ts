@@ -287,14 +287,20 @@ function getShiftPerson(sT, eT, uInfo) {
     return res
 }
 function getAttendPerson(sT, eT, uInfo) {
-    let sd = moment(sT)
-    let ed = moment(eT)
+    let sd = moment(sT).valueOf()
+    let ed = moment(eT).valueOf()
     let dayCount = Math.ceil((eT-sT) / (1000*60*60*24))
-    console.log(dayCount, '-`````--', sT, eT)
+    let ym = moment(Number(sT)).format('YYYY-MM')
+    console.log(dayCount, sd, '-`````--',ym)
     let res:Array<IAttendanceRecords> = []
     for (let index = 0; index < dayCount; index++) {
         let shiftId = faker.random.arrayElement([1,2,3])
         let shiftNameMap:string[] = ['早', '中', '晚']
+        let _month = moment(sT).format('YYYY-MM')
+        let day = index+1
+        let _day = day<10?'0'+day:day+'';
+        let checkDate = moment(ym+'-'+_day).valueOf()
+        // console.log(checkDate,moment(sT).format('YYYY-MM'), _month+'-'+_day,'------------------------', _day)
         let checkInTime = Date.now() + (3600 * 8)
         let checkOutTime = Date.now()
         let shift
@@ -317,7 +323,7 @@ function getAttendPerson(sT, eT, uInfo) {
             shopId: 304,
             userId: uInfo.userId,
             userName: uInfo.userName,
-            checkDate: moment(sT).add(dayCount, 'days').valueOf(),
+            checkDate,
             checkInTime,
             checkOutTime,
             shiftId,
