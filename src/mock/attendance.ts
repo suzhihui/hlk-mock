@@ -249,16 +249,18 @@ export const attendanceRecord = (req: Request, res: Response) => {
     })
 }
 function getShiftPerson(sT, eT, uInfo) {
-    let sd = moment(sT).days()
-    let ed = moment(eT).days()
-    let dayCount = ed - sd
+    let sd = moment(sT).valueOf()
+    let ed = moment(eT).valueOf()
+    let dayCount = Math.ceil((eT - sT) / (1000 * 60 * 60 * 24))
     let res:Array<ISchedules> = []
-
+    let ym = moment(Number(sT)).format('YYYY-MM')
     for (let i = 0; i < dayCount; i++) {
         let shiftId = faker.random.arrayElement([1,2,3])
         let shiftNameMap:string[] = ['早', '中', '晚']
         let checkInTime = Date.now() + (3600 * 8)
         let checkOutTime = Date.now()
+        let day = i + 1
+        let _day = day < 10 ? '0' + day : day + '';
         let shift
         switch (shiftId) {
             case 1:
@@ -280,7 +282,7 @@ function getShiftPerson(sT, eT, uInfo) {
             userId: uInfo.userId,
             shiftId,
             shift,
-            shiftDate: moment(sT).add(dayCount, 'days').valueOf(),
+            shiftDate: moment(ym + '-' + _day).valueOf(),
             type: faker.random.arrayElement(['NORMAL', 'VOCATION'])
         })
     }
@@ -350,7 +352,7 @@ function getOnePerson(list:Array<IAttendRecord> = [], sT:number, eT:number, user
             userId,
             userNo,
             userName,
-            shiftSchedules: [],
+            shiftSchedules: getShiftPerson(sT, eT, _item),
             attendanceRecords: getAttendPerson(sT, eT, _item)
         })
     }
