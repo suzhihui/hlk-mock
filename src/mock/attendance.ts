@@ -330,7 +330,7 @@ function getAttendPerson(sT, eT, uInfo) {
             shift,
             status: faker.random.arrayElement(['NORMAL', 'EXCEPTION', 'ABSENCE']),
             checkStatus: faker.random.arrayElement(['NORMAL', 'LATE', 'EARLY', 'LATE_EARLY']),
-            remark: `${uInfo.userName}${ moment(sT).format('YYYY-MM-DD')}的考勤备注`
+            remark: `${uInfo.userName}${moment(checkDate).format('YYYY-MM-DD')}的考勤备注`
         })
         
     }
