@@ -355,14 +355,9 @@ paths:
     patch:
         summary: 修改考勤记录
         operationId: modifyRecord
-            - name: shiftId
-                in: body
-            - name: checkInTime
-                in: body
-            - name: checkOutTime
-                in: body
-            - name: shift
-                in: body
+        parameters:
+            - name: id
+              in: path
 
   /attendance/{merchantId}/shift_config:
     get:

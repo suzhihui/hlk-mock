@@ -491,5 +491,8 @@ export const addRecord = (req: Request, res: Response) => {
 
 // todo 修改考勤记录
 export const modifyRecord = (req: Request, res: Response) => {
-
+    res.json({
+        code: 'SUCCESS',
+        message: '操作成功'
+    })
 }
