@@ -28,7 +28,7 @@ for(let i = 0; i< storeCount; i++) {
 
 export const getStoreList = (req: Request, res: Response) => {
     const { pageNum: page, pageSize: limit} = req.query
-    let pageList: Array<iStore> = []
+    let pageList: Array<iStore> = storeList
     if(page&&limit) {
         pageList = storeList.filter((_, i) => i < limit * page && i >= limit * (page - 1))
     }

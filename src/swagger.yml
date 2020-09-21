@@ -390,7 +390,15 @@ paths:
     #     - name: configs
     #     in: body
     #     description: 班次列表
-    
+  /mall/{merchantId}/mall_shop:
+    get:
+      summary: 门店 - 查询门店
+      operationId: getStoreList
+      parameters: 
+        - name: merchantId
+          in: path
+          required: true
+          description: 商户id
   /articles:
     get:
       tags:
