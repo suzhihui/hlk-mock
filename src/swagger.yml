@@ -389,7 +389,7 @@ paths:
     #   parameters:
     #     - name: configs
     #     in: body
-    #     description: 班次列表   
+    #     description: 班次列表
     
   /articles:
     get:
