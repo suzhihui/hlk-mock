@@ -16,7 +16,7 @@ for(let i = 0; i< storeCount; i++) {
         name: `直属${i+1}店`,
         isVisible: 'Y',
         photos: ['upload/81/103/4f9e135a6a76493887eb030b00bb6d31.jpg', 'upload/81/103/0fe690284b944789a8c5274306624bc6.jpg'],
-        phone: faker.phone+'',
+        phone: (1380013800+i)+'',
         areaTag: '标签'+faker.name.firstName(3),
         address: faker.address.city(3),
         longitude: 30.499165,
